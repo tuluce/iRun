@@ -9,7 +9,8 @@ console.log('Reading data...');
 const phoneticMap = JSON.parse(fs.readFileSync('./data/phonetic-map.json'));
 const reverseMap = JSON.parse(fs.readFileSync('./data/reverse-map.json'));
 const frequencyMap = JSON.parse(fs.readFileSync('./data/frequency-map.json'));
-const simplePronunciationMap = JSON.parse(fs.readFileSync('./data/simple-pronunciation-map.json'));
+const letterPronunciationMap = JSON.parse(fs.readFileSync('./data/letter-pronunciation-map.json'));
+const syllablePronunciationMap = JSON.parse(fs.readFileSync('./data/syllable-pronunciation-map.json'));
 
 const getAlternativePhonemes = phoneme => {
   const isStressFreeVowel = phoneme => RegExp('^[AEIOU][A-Z]$').test(phoneme);
@@ -49,6 +50,9 @@ const getKeys = phonemeSets => {
 
 const syllablesToPronunciation = syllables => (
   syllables.map(syllable => {
+    if (syllablePronunciationMap[syllable]) {
+      return syllablePronunciationMap[syllable];
+    }
     const phonemeSets = syllable.split('').map(letter => phoneticMap[letter]);
     const keys = getKeys(phonemeSets);
     for (let i = 0; i < keys.length; i++) {
@@ -78,7 +82,7 @@ const getWordPronunciations = word => {
 const getPaleSyllablePronunciation = syllable => {
   let result = syllable;
   for (let i = 0; i < syllable.length; i++) {
-    result = result.replace(syllable[i], simplePronunciationMap[syllable[i]]);
+    result = result.replace(syllable[i], letterPronunciationMap[syllable[i]]);
   }
   return result;
 };
