@@ -7,8 +7,8 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 const excludedWords = ['a', 'u'];
 
-const maxRequestCount = 128;
-const requestSleepDuration = 8;
+const maxRequestCount = 256;
+const requestSleepDuration = 4;
 
 const generateFilteredDict = async () => {
   console.log('Reading file...');
@@ -27,13 +27,15 @@ const generateFilteredDict = async () => {
     const entryElements = entry.split(' ');
     const word = entryElements[0].replace('(2)', '').replace('(3)', '').replace('(4)', '');
     const url = `https://dictionary.cambridge.org/dictionary/english/${word}`;
-    let status;
-    try {
-      const response = await axios.head(url, { maxRedirects: 0 });
-      status = response.status;
-    } catch (error) {
-      if (error.response) {
-        status = error.response.status;
+    let status = null;
+    while (status === null) {
+      try {
+        const response = await axios.head(url, { maxRedirects: 0 });
+        status = response.status;
+      } catch (error) {
+        if (error.response) {
+          status = error.response.status;
+        }
       }
     }
     if (status === 200 && !excludedWords.includes(word)) {
@@ -45,7 +47,7 @@ const generateFilteredDict = async () => {
 
   while (processedCount < entries.length) {
     console.log(processedCount, '/', entries.length);
-    await sleep(500);
+    await sleep(1000);
   }
 
   const filteredContent = filteredEntries.filter(entry => entry !== null).join('\n');
