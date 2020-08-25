@@ -22,8 +22,20 @@ const getLetterType = letter => {
 const isValidLetter = letter => consonants.includes(letter) || vowels.includes(letter);
 
 const normalizeWord = word => {
+  const replacements = { â: 'a', ê: 'e', î: 'i', ô: 'o', û: 'u' };
+  const hasReplacements = word => (
+    Object.keys(replacements)
+      .filter(letterToReplace => word.includes(letterToReplace))
+      .length > 0
+  );
   const lowerCaseWord = word.toLocaleLowerCase('TR');
-  return [...lowerCaseWord].filter(letter => isValidLetter(letter)).join('');
+  let replacedWord = lowerCaseWord;
+  while (hasReplacements(replacedWord)) {
+    Object.keys(replacements).forEach(letterToReplace => {
+      replacedWord.replace(letterToReplace, replacements[letterToReplace]);
+    });
+  }
+  return [...replacedWord].filter(letter => isValidLetter(letter)).join('');
 };
 
 const getVowelCount = word => {

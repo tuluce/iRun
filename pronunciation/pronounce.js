@@ -3,7 +3,7 @@
 const fs = require('fs');
 
 const { getAllHyphenations } = require('./hyphenate-all');
-const { getProperHyphenation, isValidLetter } = require('./hyphenate');
+const { getProperHyphenation, isValidLetter, normalizeWord } = require('./hyphenate');
 
 console.log('Reading data...');
 const phoneticMap = JSON.parse(fs.readFileSync('./data/phonetic-map.json'));
@@ -139,13 +139,13 @@ const getFancyWordPronunciations = word => {
   const wordPronunciations = [];
   for (let i = 0; i < syllableGroups.length; i++) {
     const syllables = syllableGroups[i];
-    const pronunciation = syllables.map(syllable => getFancySyllablePronunciation(syllable))
+    const pronunciation = syllables.map(syllable => getFancySyllablePronunciation(syllable));
     wordPronunciations.push(pronunciation);
   }
   return wordPronunciations;
 };
 
-const getWordPronunciation = word => {
+const getWordPronunciations = word => {
   const alternatives = getFancyWordPronunciations(word);
   let bestAlternative = alternatives[0];
   let bestUncoveredCount = getUncoveredSyllableCount(bestAlternative);
@@ -162,62 +162,45 @@ const getWordPronunciation = word => {
   return bestAlternative;
 };
 
-const getTextPronunciation = text => {
-  text = text.toLocaleLowerCase('TR');
-  let word = '';
-  let textPronunciation = '';
-  for (let i = 0; i < text.length; i++) {
-    const char = text.charAt(i);
-    if (isValidLetter(char)) {
-      word += char;
-    } else {
-      if (word) {
-        textPronunciation += getWordPronunciation(word).join('-');
-      }
-      textPronunciation += char;
-      word = '';
+const getPronunciationAnalysis = text => {
+  const pronunciationAnalysis = [];
+  text.split(' ').forEach(word => {
+    if (word.length === 0) {
+      return;
     }
-  }
-  if (word) {
-    textPronunciation += getWordPronunciation(word).join('-');
-  }
-  return textPronunciation;
+    const normalizedWord = normalizeWord(word);
+    const wordPronunciations = [getWordPronunciations(normalizedWord), getWordPronunciations(normalizedWord)];
+    const wordAnalysis = {};
+    wordAnalysis.original = word;
+    wordAnalysis.pronouncable = normalizedWord;
+    wordAnalysis.pronunciations = wordPronunciations.map(wordPronunciation => {
+      const display = wordPronunciation.join('-');
+      const details = {};
+      wordPronunciation.forEach(pronunciationPart => {
+        details[pronunciationPart] = {
+          phonemes: 'PHONEME LIST HERE',
+          source: 'dictionary OR syllable-translation OR letter-translation HERE',
+        };
+      });
+      return JSON.stringify({ display, details }); // TODO remove stringify
+    });
+    pronunciationAnalysis.push(wordAnalysis);
+  });
+  return pronunciationAnalysis;
 };
 
-console.log(getWordPronunciation('ağrı'));
-console.log(getWordPronunciation('ağaç'));
-console.log(getWordPronunciation('ereğli'));
-console.log(getWordPronunciation('gözde'));
-console.log(getWordPronunciation('bilgisayar'));
-console.log(getWordPronunciation('çiğdem'));
-console.log(getWordPronunciation('jilet'));
-console.log(getWordPronunciation('antik'));
-console.log(getWordPronunciation('o'));
-console.log(getWordPronunciation('saat'));
-console.log(getWordPronunciation('emin'));
-console.log(getWordPronunciation('bahadır'));
-console.log(getWordPronunciation('tülüce'));
-console.log(getWordPronunciation('dakika'));
-console.log(getWordPronunciation('tülüce'));
-console.log();
+const getPronunciation = (text, { analysis }) => {
+  const pronunciationAnalysis = getPronunciationAnalysis(text);
+  if (!analysis) {
+    return pronunciationAnalysis.map(pronunciation => pronunciation);
+  }
+  return pronunciationAnalysis;
+};
 
-console.log(getTextPronunciation(`
-Aysel ayran içtin mi? Evet içtim. Ayran içmek istiyorsan iç. Hayır demin içtim.
-Kaç bardak içtin? On bardak içtim. Vay hayvan vay!
-`));
 
-console.log(getTextPronunciation(`
-Taş iletişim kurduğu diğer taşa karşılıklı olarak çevresini ve ona emredileni
-görüntüler ile iletirdi. Bu özelliği sayesinde ülkeler arasındaki en hızlı
-iletişimi sağladılar.
-`));
+console.log(getPronunciation(`
+Emin Bahadır, Tülü'ce tarafından
+`, { analysis: true }));
 
-console.log(getTextPronunciation(`
-Emin Bahadır Tülüce tarafından dilara tülüce
-`));
 
-console.log(getTextPronunciation(`
-Gündemde ve sosyal medyada olup bitenlerden geride kalma!
-İnternette anlamadığın, kaçırdığın bir şeye rastlarsan sor ve hemen cevap al.
-Sorulan sorulara, eklenen olaylara veya gönderilere göz at.
-`));
+module.exports = { getPronunciation };
