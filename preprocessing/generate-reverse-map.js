@@ -3,11 +3,11 @@
 const fs = require('fs');
 
 const generateReverseMap = () => {
-  console.log('Reading file...');
+  console.log('Reading filtered dictionary file...');
   const fileContent = fs.readFileSync('./data/cmudict-filtered.dict', 'utf8');
   const entries = fileContent.split('\n');
 
-  console.log('Processing entries...');
+  console.log('Processing filtered dictionary entries...');
   const reverseDict = {};
   entries.forEach((entry, i) => {
     if (i % 10000 === 0) {
@@ -28,7 +28,7 @@ const generateReverseMap = () => {
     }
   });
 
-  console.log('Writing phoneme map to file...');
+  console.log('Writing reverse map to file...');
   fs.writeFileSync('./data/reverse-map.json', JSON.stringify(reverseDict));
 
   console.log('Done.');

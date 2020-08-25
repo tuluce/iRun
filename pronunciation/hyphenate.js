@@ -22,12 +22,14 @@ const getLetterType = letter => {
   return null;
 };
 
+const isValidLetter = letter => consonants.includes(letter) || vowels.includes(letter);
+
 const normalizeWord = word => {
   const lowerCaseWord = word.toLocaleLowerCase('TR');
   const normalizedLetters = [];
   for (let i = 0; i < lowerCaseWord.length; i++) {
     const letter = lowerCaseWord[i];
-    if (getLetterType(letter)) {
+    if (isValidLetter(letter)) {
       normalizedLetters.push(letter);
     }
   }
@@ -104,7 +106,7 @@ const hyphenateRecursive = word => {
   return [w];
 };
 
-const hyphenate = word => {
+const getProperHyphenation = word => {
   const result = hyphenateRecursive(word);
   if (!result || result.length === 0 || (result.length === 1 && result[0] === '')) {
     return [];
@@ -113,29 +115,30 @@ const hyphenate = word => {
 };
 
 const test = () => {
-  console.log(hyphenate('proaktifcilerim'));
-  console.log(hyphenate('aortçularım'));
-  console.log(hyphenate('paracılarım'));
-  console.log(hyphenate('tavacılarım'));
-  console.log(hyphenate('baklavacılarım'));
-  console.log(hyphenate('tavlacılarım'));
-  console.log(hyphenate('kamplaşmacılarım'));
-  console.log(hyphenate('kurtçukçularım'));
-  console.log(hyphenate('tabldotçularım'));
-  console.log(hyphenate('klostrofobicilerim'));
-  console.log(hyphenate('elektrikçilerim'));
-  console.log(hyphenate('elektronikçilerim'));
-  console.log(hyphenate('santralcilerim'));
-  console.log(hyphenate('hancılardansa'));
-  console.log(hyphenate('yeşilimtrak'));
-  console.log(hyphenate('prensleştirmekte'));
+  console.log(getProperHyphenation('proaktifcilerim'));
+  console.log(getProperHyphenation('aortçularım'));
+  console.log(getProperHyphenation('paracılarım'));
+  console.log(getProperHyphenation('tavacılarım'));
+  console.log(getProperHyphenation('baklavacılarım'));
+  console.log(getProperHyphenation('tavlacılarım'));
+  console.log(getProperHyphenation('kamplaşmacılarım'));
+  console.log(getProperHyphenation('kurtçukçularım'));
+  console.log(getProperHyphenation('tabldotçularım'));
+  console.log(getProperHyphenation('klostrofobicilerim'));
+  console.log(getProperHyphenation('elektrikçilerim'));
+  console.log(getProperHyphenation('elektronikçilerim'));
+  console.log(getProperHyphenation('santralcilerim'));
+  console.log(getProperHyphenation('hancılardansa'));
+  console.log(getProperHyphenation('yeşilimtrak'));
+  console.log(getProperHyphenation('prensleştirmekte'));
 };
 
 module.exports = {
   test,
-  hyphenate,
-  LetterType,
+  getProperHyphenation,
   getLetterType,
+  LetterType,
+  isValidLetter,
   normalizeWord,
   getVowelCount,
 };

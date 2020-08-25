@@ -9,4 +9,4 @@
 // const generateFrequencyMap = require('./preprocessing/generate-frequency-map');
 // generateFrequencyMap();
 
-require('./pronunciation-helper');
+require('./pronunciation/pronounce');

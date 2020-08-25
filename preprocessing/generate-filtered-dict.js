@@ -11,11 +11,11 @@ const maxRequestCount = 256;
 const requestSleepDuration = 1;
 
 const generateFilteredDict = async () => {
-  console.log('Reading file...');
+  console.log('Reading dictionary file...');
   const fileContent = fs.readFileSync('./data/cmudict.dict', 'utf8');
   const entries = fileContent.split('\n');
 
-  console.log('Processing entries...');
+  console.log('Processing dictionary entries...');
   const filteredEntries = entries.map(() => null);
   let processedCount = 0;
   let currentRequestCount = 0;
@@ -52,7 +52,7 @@ const generateFilteredDict = async () => {
 
   const filteredContent = filteredEntries.filter(entry => entry !== null).join('\n');
 
-  console.log('Writing filtered dict to file...');
+  console.log('Writing filtered dictionary to file...');
   fs.writeFileSync('./data/cmudict-filtered.dict', filteredContent);
 
   console.log('Done.');

@@ -3,7 +3,7 @@
 const fs = require('fs');
 
 const { getAllHyphenations } = require('./hyphenate-all');
-const { hyphenate, getLetterType } = require('./hyphenate');
+const { getProperHyphenation, isValidLetter } = require('./hyphenate');
 
 console.log('Reading data...');
 const phoneticMap = JSON.parse(fs.readFileSync('./data/phonetic-map.json'));
@@ -127,7 +127,7 @@ const getSimpleSyllablePronunciation = syllable => {
 };
 
 const getSimpleWordPronunciation = word => {
-  const syllables = hyphenate(word);
+  const syllables = getProperHyphenation(word);
   const pronunciation = [];
   for (let i = 0; i < syllables.length; i++) {
     pronunciation.push(getSimpleSyllablePronunciation(syllables[i]));
@@ -167,7 +167,7 @@ const getTextPronunciation = text => {
   let textPronunciation = '';
   for (let i = 0; i < text.length; i++) {
     const char = text.charAt(i);
-    if (getLetterType(char)) {
+    if (isValidLetter(char)) {
       word += char;
     } else {
       if (word) {
@@ -212,7 +212,7 @@ iletişimi sağladılar.
 `));
 
 console.log(getTextPronunciation(`
-Emin Bahadır Tülüce tarafından
+Emin Bahadır Tülüce tarafından dilara tülüce
 `));
 
 console.log(getTextPronunciation(`

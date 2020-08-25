@@ -134,4 +134,7 @@ const test = () => {
   console.log(getAllHyphenations('aabrsealye'));
 };
 
-module.exports = { test, getAllHyphenations };
+module.exports = {
+  test,
+  getAllHyphenations,
+};
