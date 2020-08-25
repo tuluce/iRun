@@ -1,5 +1,3 @@
-'use strict';
-
 const { LetterType, getLetterType, normalizeWord, getVowelCount } = require('./hyphenate');
 
 const ConsonantPosition = { LEFT: 'left', RIGHT: 'right' };

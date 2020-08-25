@@ -1,5 +1,3 @@
-'use strict';
-
 const consonants = [
   'b', 'c', 'ç', 'd', 'f', 'g', 'ğ', 'h', 'j', 'k', 'l',
   'm', 'n', 'p', 'r', 's', 'ş', 't', 'v', 'y', 'z',

@@ -1,12 +1,20 @@
 {
-  "extends": "strongloop",
+  "extends": [
+    "react-app",
+    "strongloop"
+  ],
   "env": {
-    "node": true,
+    "browser": true,
     "es6": true
   },
-  "parserOptions": {
-    "ecmaVersion": 2018
-  },
+  "parser": "babel-eslint",
+  "plugins": [
+    "flowtype",
+    "import",
+    "jsx-a11y",
+    "react",
+    "react-hooks"
+  ],
   "rules": {
     "space-before-function-paren": ["error", {
       "anonymous": "never",

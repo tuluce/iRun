@@ -17,3 +17,6 @@ yarn-error.log*
 /tmp
 /artifacts
 /dist
+
+/.next
+/out

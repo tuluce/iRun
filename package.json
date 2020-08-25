@@ -1,13 +1,26 @@
 {
   "name": "pronunciaton-helper",
   "scripts": {
-    "start": "node index.js"
+    "build": "next build",
+    "dev": "next dev",
+    "export": "next export",
+    "start": "next start"
   },
   "dependencies": {
-    "axios": "^0.20.0"
+    "next": "^9.5.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
   },
   "devDependencies": {
+    "axios": "^0.20.0",
+    "babel-eslint": "^10.1.0",
     "eslint": "^7.7.0",
-    "eslint-config-strongloop": "^2.1.0"
+    "eslint-config-react-app": "^5.2.1",
+    "eslint-config-strongloop": "^2.1.0",
+    "eslint-plugin-flowtype": "^5.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-react": "^7.20.6",
+    "eslint-plugin-react-hooks": "^4.1.0"
   }
 }

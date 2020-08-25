@@ -1,17 +1,12 @@
-'use strict';
+import { getAllHyphenations } from './hyphenate-all';
+import { getProperHyphenation, normalizeWord } from './hyphenate';
 
-const fs = require('fs');
-
-const { getAllHyphenations } = require('./hyphenate-all');
-const { getProperHyphenation, normalizeWord } = require('./hyphenate');
-
-console.log('Reading data...');
-const phoneticMap = JSON.parse(fs.readFileSync('./data/phonetic-map.json'));
-const phoneticMapExtra = JSON.parse(fs.readFileSync('./data/phonetic-map-extra.json'));
-const reverseMap = JSON.parse(fs.readFileSync('./data/reverse-map.json'));
-const frequencyMap = JSON.parse(fs.readFileSync('./data/frequency-map.json'));
-const letterPronunciationMap = JSON.parse(fs.readFileSync('./data/letter-pronunciation-map.json'));
-const syllablePronunciationMap = JSON.parse(fs.readFileSync('./data/syllable-pronunciation-map.json'));
+import phoneticMap from '../data/phonetic-map.json';
+import phoneticMapExtra from '../data/phonetic-map-extra.json';
+import reverseMap from '../data/reverse-map.json';
+import frequencyMap from '../data/frequency-map.json';
+import letterPronunciationMap from '../data/letter-pronunciation-map.json';
+import syllablePronunciationMap from '../data/syllable-pronunciation-map.json';
 
 const getAlternativePhonemes = phoneme => {
   const isStressFreeVowel = phoneme => RegExp('^[AEIOU][A-Z]$').test(phoneme);
@@ -221,10 +216,5 @@ const getPronunciation = (text, options) => {
   }
   return pronunciationAnalysis;
 };
-
-console.dir(getPronunciation(`
-Emin Bahadır, Tülü'ce tarafından ona... gmmre.
-`, { analysis: true }), { depth: null });
-
 
 module.exports = { getPronunciation };
