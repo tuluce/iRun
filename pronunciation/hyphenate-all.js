@@ -138,8 +138,8 @@ const displayTests = () => {
   console.log(getAllHyphenations('bahadır'));
   console.log(getAllHyphenations('santral'));
   console.log(getAllHyphenations('prenses'));
-  console.log(getAllHyphenations('arabcı'));
-  console.log(getAllHyphenations('aabrsealye'));
+  console.log(getAllHyphenations('arapçı'));
+  console.log(getAllHyphenations('aabcdeighu'));
 };
 
 module.exports = {
