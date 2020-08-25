@@ -3,7 +3,7 @@
 const fs = require('fs');
 
 const { getAllHyphenations } = require('./hyphenate-all');
-const { getProperHyphenation, isValidLetter, normalizeWord } = require('./hyphenate');
+const { getProperHyphenation, normalizeWord } = require('./hyphenate');
 
 console.log('Reading data...');
 const phoneticMap = JSON.parse(fs.readFileSync('./data/phonetic-map.json'));
@@ -86,7 +86,10 @@ const getExtraPhonemeSets = syllable => {
 
 const getFancySyllablePronunciation = syllable => {
   if (syllablePronunciationMap[syllable]) {
-    return syllablePronunciationMap[syllable];
+    return {
+      word: syllablePronunciationMap[syllable],
+      source: 'syllable-translation',
+    };
   }
   const phonemeSets = getPhonemeSets(syllable);
   const extraPhonemeSets = getExtraPhonemeSets(syllable);
@@ -97,29 +100,34 @@ const getFancySyllablePronunciation = syllable => {
       const alternatives = reverseMap[key].slice();
       const getFrequency = word => frequencyMap[word] || 0;
       alternatives.sort((a, b) => getFrequency(b) - getFrequency(a));
-      return alternatives[0];
+      return {
+        word: alternatives[0],
+        source: 'dictionary',
+      };
     }
   }
-  return syllable.toLocaleUpperCase('TR');
+  return getSimpleSyllablePronunciation(syllable);
 };
 
 const getSimpleSyllablePronunciation = syllable => {
-  const preferredPronunciation = getFancySyllablePronunciation(syllable);
-  if (preferredPronunciation !== preferredPronunciation.toUpperCase()) {
-    return preferredPronunciation;
-  }
-  let result = syllable;
+  let simpleSyllablePronunciation = syllable;
   for (let i = 0; i < syllable.length; i++) {
-    result = result.replace(syllable[i], letterPronunciationMap[syllable[i]]);
+    simpleSyllablePronunciation = simpleSyllablePronunciation.replace(
+      syllable[i],
+      letterPronunciationMap[syllable[i]],
+    );
   }
-  return result;
+  return {
+    word: simpleSyllablePronunciation,
+    source: 'letter-translation',
+  };
 };
 
 const getSimpleWordPronunciation = word => {
   const syllables = getProperHyphenation(word);
   const pronunciation = [];
   for (let i = 0; i < syllables.length; i++) {
-    pronunciation.push(getSimpleSyllablePronunciation(syllables[i]));
+    pronunciation.push(getFancySyllablePronunciation(syllables[i]));
   }
   return pronunciation;
 };
@@ -127,7 +135,7 @@ const getSimpleWordPronunciation = word => {
 const getUncoveredSyllableCount = pronunciation => {
   let uncoveredCount = 0;
   for (let i = 0; i < pronunciation.length; i++) {
-    if (pronunciation[i].charAt(0) === pronunciation[i].charAt(0).toUpperCase()) {
+    if (pronunciation[i].source !== 'dictionary') {
       uncoveredCount += 1;
     }
   }
@@ -146,20 +154,14 @@ const getFancyWordPronunciations = word => {
 };
 
 const getWordPronunciations = word => {
-  const alternatives = getFancyWordPronunciations(word);
-  let bestAlternative = alternatives[0];
-  let bestUncoveredCount = getUncoveredSyllableCount(bestAlternative);
-  for (let i = 0; i < alternatives.length; i++) {
-    const uncoveredCount = getUncoveredSyllableCount(alternatives[i]);
-    if (bestUncoveredCount > uncoveredCount) {
-      bestUncoveredCount = uncoveredCount;
-      bestAlternative = alternatives[i];
-    }
+  const wordPronunciations = getFancyWordPronunciations(word);
+  wordPronunciations.sort((a, b) => getUncoveredSyllableCount(a) - getUncoveredSyllableCount(b));
+  const bestUnceverdSyllableCount = getUncoveredSyllableCount(wordPronunciations[0]);
+  if (bestUnceverdSyllableCount > 0) {
+    const simpleWordPronunciation = getSimpleWordPronunciation(word);
+    wordPronunciations.unshift(simpleWordPronunciation);
   }
-  if (bestUncoveredCount > 0) {
-    return getSimpleWordPronunciation(word);
-  }
-  return bestAlternative;
+  return wordPronunciations;
 };
 
 const getPronunciationAnalysis = text => {
@@ -169,7 +171,7 @@ const getPronunciationAnalysis = text => {
       return;
     }
     const normalizedWord = normalizeWord(word);
-    const wordPronunciations = [getWordPronunciations(normalizedWord), getWordPronunciations(normalizedWord)];
+    const wordPronunciations = getWordPronunciations(normalizedWord);
     const wordAnalysis = {};
     wordAnalysis.original = word;
     wordAnalysis.pronouncable = normalizedWord;
@@ -182,7 +184,7 @@ const getPronunciationAnalysis = text => {
           source: 'dictionary OR syllable-translation OR letter-translation HERE',
         };
       });
-      return JSON.stringify({ display, details }); // TODO remove stringify
+      return { display, details };
     });
     pronunciationAnalysis.push(wordAnalysis);
   });
@@ -197,10 +199,9 @@ const getPronunciation = (text, { analysis }) => {
   return pronunciationAnalysis;
 };
 
-
-console.log(getPronunciation(`
+console.dir(getPronunciation(`
 Emin Bahadır, Tülü'ce tarafından
-`, { analysis: true }));
+`, { analysis: true }), { depth: null });
 
 
 module.exports = { getPronunciation };
