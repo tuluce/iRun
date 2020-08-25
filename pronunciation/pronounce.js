@@ -171,7 +171,9 @@ const getWordPronunciations = word => {
   const bestUnceverdSyllableCount = getUncoveredSyllableCount(wordPronunciations[0]);
   if (bestUnceverdSyllableCount > 0) {
     const simpleWordPronunciation = getSimpleWordPronunciation(word);
-    wordPronunciations.unshift(simpleWordPronunciation);
+    if (simpleWordPronunciation.join('-') !== wordPronunciations[0].join('-')) {
+      wordPronunciations.unshift(simpleWordPronunciation);
+    }
   }
   return wordPronunciations;
 };
@@ -221,7 +223,7 @@ const getPronunciation = (text, options) => {
 };
 
 console.dir(getPronunciation(`
-Emin Bahadır, Tülü'ce tarafından ona
+Emin Bahadır, Tülü'ce tarafından ona... gmmre.
 `, { analysis: true }), { depth: null });
 
 
