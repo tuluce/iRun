@@ -177,6 +177,9 @@ const getTextPronunciation = text => {
       word = '';
     }
   }
+  if (word) {
+    textPronunciation += getWordPronunciation(word).join('-');
+  }
   return textPronunciation;
 };
 
