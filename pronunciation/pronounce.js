@@ -204,10 +204,18 @@ const getPronunciationAnalysis = text => {
   return pronunciationAnalysis;
 };
 
-const getPronunciation = (text, { analysis }) => {
+const getPronunciation = (text, options) => {
+  const analysis = options && options.analysis;
   const pronunciationAnalysis = getPronunciationAnalysis(text);
   if (!analysis) {
-    return pronunciationAnalysis.map(pronunciation => pronunciation);
+    return pronunciationAnalysis
+      .map(wordAnalysis => {
+        if (wordAnalysis.pronunciations && wordAnalysis.pronunciations[0]) {
+          return wordAnalysis.pronunciations[0].display;
+        }
+        return null;
+      })
+      .filter(pronunciationDisplay => pronunciationDisplay !== null);
   }
   return pronunciationAnalysis;
 };
