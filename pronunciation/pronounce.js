@@ -21,17 +21,21 @@ const getAlternativePhonemes = phoneme => {
   return [phoneme];
 };
 
+const getExtendedPhonemeSet = phonemeSet => {
+  const extendedPhonemeSet = [];
+  phonemeSet.forEach(phoneme => {
+    extendedPhonemeSet.push(...getAlternativePhonemes(phoneme));
+  });
+  return extendedPhonemeSet;
+};
+
 const getKeys = phonemeSets => {
   const extendedPhonemeSets = [];
-  for (let i = 0; i < phonemeSets.length; i++) {
-    const phonemeSet = phonemeSets[i];
-    const extendedPhonemeSet = [];
-    for (let j = 0; j < phonemeSet.length; j++) {
-      const phoneme = phonemeSet[j];
-      extendedPhonemeSet.push(...getAlternativePhonemes(phoneme));
-    }
+  phonemeSets.forEach(phonemeSet => {
+    const extendedPhonemeSet = getExtendedPhonemeSet(phonemeSet);
     extendedPhonemeSets.push(extendedPhonemeSet);
-  }
+  });
+
   let keys = [...extendedPhonemeSets[0]];
   for (let i = 1; i < extendedPhonemeSets.length; i++) {
     const phonemeSet = extendedPhonemeSets[i];
@@ -99,21 +103,6 @@ const getFancySyllablePronunciation = syllable => {
   return syllable.toLocaleUpperCase('TR');
 };
 
-const syllablesToPronunciation = syllables => (
-  syllables.map(syllable => getFancySyllablePronunciation(syllable))
-);
-
-const getWordPronunciations = word => {
-  const syllableGroups = getAllHyphenations(word);
-  const wordPronunciations = [];
-  for (let i = 0; i < syllableGroups.length; i++) {
-    const syllables = syllableGroups[i];
-    const pronunciation = syllablesToPronunciation(syllables);
-    wordPronunciations.push(pronunciation);
-  }
-  return wordPronunciations;
-};
-
 const getSimpleSyllablePronunciation = syllable => {
   const preferredPronunciation = getFancySyllablePronunciation(syllable);
   if (preferredPronunciation !== preferredPronunciation.toUpperCase()) {
@@ -135,21 +124,33 @@ const getSimpleWordPronunciation = word => {
   return pronunciation;
 };
 
-const getWordPronunciation = word => {
-  const getUncoveredCount = pronunciation => {
-    let uncoveredCount = 0;
-    for (let i = 0; i < pronunciation.length; i++) {
-      if (pronunciation[i].charAt(0) === pronunciation[i].charAt(0).toUpperCase()) {
-        uncoveredCount += 1;
-      }
+const getUncoveredSyllableCount = pronunciation => {
+  let uncoveredCount = 0;
+  for (let i = 0; i < pronunciation.length; i++) {
+    if (pronunciation[i].charAt(0) === pronunciation[i].charAt(0).toUpperCase()) {
+      uncoveredCount += 1;
     }
-    return uncoveredCount;
-  };
-  const alternatives = getWordPronunciations(word);
+  }
+  return uncoveredCount;
+};
+
+const getFancyWordPronunciations = word => {
+  const syllableGroups = getAllHyphenations(word);
+  const wordPronunciations = [];
+  for (let i = 0; i < syllableGroups.length; i++) {
+    const syllables = syllableGroups[i];
+    const pronunciation = syllables.map(syllable => getFancySyllablePronunciation(syllable))
+    wordPronunciations.push(pronunciation);
+  }
+  return wordPronunciations;
+};
+
+const getWordPronunciation = word => {
+  const alternatives = getFancyWordPronunciations(word);
   let bestAlternative = alternatives[0];
-  let bestUncoveredCount = getUncoveredCount(bestAlternative);
+  let bestUncoveredCount = getUncoveredSyllableCount(bestAlternative);
   for (let i = 0; i < alternatives.length; i++) {
-    const uncoveredCount = getUncoveredCount(alternatives[i]);
+    const uncoveredCount = getUncoveredSyllableCount(alternatives[i]);
     if (bestUncoveredCount > uncoveredCount) {
       bestUncoveredCount = uncoveredCount;
       bestAlternative = alternatives[i];
