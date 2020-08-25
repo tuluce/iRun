@@ -87,8 +87,12 @@ const getExtraPhonemeSets = syllable => {
 const getFancySyllablePronunciation = syllable => {
   if (syllablePronunciationMap[syllable]) {
     return {
-      word: syllablePronunciationMap[syllable],
       source: 'syllable-translation',
+      word: syllablePronunciationMap[syllable],
+      explanation: {
+        from: syllable,
+        to: syllablePronunciationMap[syllable],
+      },
     };
   }
   const phonemeSets = getPhonemeSets(syllable);
@@ -103,6 +107,10 @@ const getFancySyllablePronunciation = syllable => {
       return {
         word: alternatives[0],
         source: 'dictionary',
+        explanation: {
+          from: alternatives[0],
+          to: key,
+        },
       };
     }
   }
@@ -120,6 +128,10 @@ const getSimpleSyllablePronunciation = syllable => {
   return {
     word: simpleSyllablePronunciation,
     source: 'letter-translation',
+    explanation: {
+      from: syllable,
+      to: simpleSyllablePronunciation,
+    },
   };
 };
 
@@ -176,15 +188,16 @@ const getPronunciationAnalysis = text => {
     wordAnalysis.original = word;
     wordAnalysis.pronouncable = normalizedWord;
     wordAnalysis.pronunciations = wordPronunciations.map(wordPronunciation => {
-      const display = wordPronunciation.join('-');
+      const display = wordPronunciation.map(wordPronunciation => wordPronunciation.word).join('-');
+      const words = wordPronunciation.map(wordPronunciation => wordPronunciation.word);
       const details = {};
       wordPronunciation.forEach(pronunciationPart => {
-        details[pronunciationPart] = {
-          phonemes: 'PHONEME LIST HERE',
-          source: 'dictionary OR syllable-translation OR letter-translation HERE',
+        details[pronunciationPart.word] = {
+          source: pronunciationPart.source,
+          explanation: pronunciationPart.explanation,
         };
       });
-      return { display, details };
+      return { display, words, details };
     });
     pronunciationAnalysis.push(wordAnalysis);
   });
@@ -200,7 +213,7 @@ const getPronunciation = (text, { analysis }) => {
 };
 
 console.dir(getPronunciation(`
-Emin Bahadır, Tülü'ce tarafından
+Emin Bahadır, Tülü'ce tarafından ona
 `, { analysis: true }), { depth: null });
 
 
