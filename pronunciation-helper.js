@@ -7,6 +7,7 @@ const { hyphenate, getLetterType } = require('./hyphenate');
 
 console.log('Reading data...');
 const phoneticMap = JSON.parse(fs.readFileSync('./data/phonetic-map.json'));
+const phoneticMapExtra = JSON.parse(fs.readFileSync('./data/phonetic-map-extra.json'));
 const reverseMap = JSON.parse(fs.readFileSync('./data/reverse-map.json'));
 const frequencyMap = JSON.parse(fs.readFileSync('./data/frequency-map.json'));
 const letterPronunciationMap = JSON.parse(fs.readFileSync('./data/letter-pronunciation-map.json'));
@@ -48,24 +49,58 @@ const getKeys = phonemeSets => {
   return keys;
 };
 
-const syllablesToPronunciation = syllables => (
-  syllables.map(syllable => {
-    if (syllablePronunciationMap[syllable]) {
-      return syllablePronunciationMap[syllable];
-    }
-    const phonemeSets = syllable.split('').map(letter => phoneticMap[letter]);
-    const keys = getKeys(phonemeSets);
-    for (let i = 0; i < keys.length; i++) {
-      const key = keys[i];
-      if (reverseMap[key]) {
-        const alternatives = reverseMap[key].slice();
-        const getFrequency = word => frequencyMap[word] || 0;
-        alternatives.sort((a, b) => getFrequency(b) - getFrequency(a));
-        return alternatives[0];
+const getPhonemeSets = syllable => syllable.split('').map(letter => phoneticMap[letter]);
+
+const getExtraPhonemeSets = syllable => {
+  const extraSyllableIndices = [];
+  const extraSyllables = [];
+  const extraSyllableList = Object.keys(phoneticMapExtra);
+  for (let i = 0; i < syllable.length; i++) {
+    for (let j = 0; j < extraSyllableList.length; j++) {
+      const extraSyllable = extraSyllableList[j];
+      if (syllable.substr(i, extraSyllable.length) === extraSyllable) {
+        extraSyllableIndices.push(i);
+        extraSyllables.push(extraSyllable);
+        i += extraSyllable.length - 1;
       }
     }
-    return syllable.toLocaleUpperCase('TR');
-  })
+  }
+  const extraPhonemeSets = [];
+  for (let i = 0; i < syllable.length; i++) {
+    if (extraSyllableIndices.includes(i)) {
+      const j = extraSyllableIndices.indexOf(i);
+      const extraSyllable = extraSyllables[j];
+      extraPhonemeSets.push(phoneticMapExtra[extraSyllable]);
+      i += extraSyllable.length - 1;
+    } else {
+      const letter = syllable[i];
+      extraPhonemeSets.push(phoneticMap[letter]);
+    }
+  }
+  return extraPhonemeSets;
+};
+
+const getFancySyllablePronunciation = syllable => {
+  if (syllablePronunciationMap[syllable]) {
+    return syllablePronunciationMap[syllable];
+  }
+  const phonemeSets = getPhonemeSets(syllable);
+  const extraPhonemeSets = getExtraPhonemeSets(syllable);
+  const keys = [...getKeys(phonemeSets), ...getKeys(extraPhonemeSets)];
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i];
+    if (reverseMap[key]) {
+      const alternatives = reverseMap[key].slice();
+      const getFrequency = word => frequencyMap[word] || 0;
+      alternatives.sort((a, b) => getFrequency(b) - getFrequency(a));
+      return alternatives[0];
+    }
+  }
+  return syllable.toLocaleUpperCase('TR');
+};
+
+const syllablesToPronunciation = syllables => (
+  syllables.map(syllable => getFancySyllablePronunciation(syllable))
 );
 
 const getWordPronunciations = word => {
@@ -79,7 +114,11 @@ const getWordPronunciations = word => {
   return wordPronunciations;
 };
 
-const getPaleSyllablePronunciation = syllable => {
+const getSimpleSyllablePronunciation = syllable => {
+  const preferredPronunciation = getFancySyllablePronunciation(syllable);
+  if (preferredPronunciation !== preferredPronunciation.toUpperCase()) {
+    return preferredPronunciation;
+  }
   let result = syllable;
   for (let i = 0; i < syllable.length; i++) {
     result = result.replace(syllable[i], letterPronunciationMap[syllable[i]]);
@@ -87,11 +126,11 @@ const getPaleSyllablePronunciation = syllable => {
   return result;
 };
 
-const getPaleWordPronunciation = word => {
+const getSimpleWordPronunciation = word => {
   const syllables = hyphenate(word);
   const pronunciation = [];
   for (let i = 0; i < syllables.length; i++) {
-    pronunciation.push(getPaleSyllablePronunciation(syllables[i]));
+    pronunciation.push(getSimpleSyllablePronunciation(syllables[i]));
   }
   return pronunciation;
 };
@@ -101,7 +140,7 @@ const getWordPronunciation = word => {
     let uncoveredCount = 0;
     for (let i = 0; i < pronunciation.length; i++) {
       if (pronunciation[i].charAt(0) === pronunciation[i].charAt(0).toUpperCase()) {
-        uncoveredCount += pronunciation[i].length;
+        uncoveredCount += 1;
       }
     }
     return uncoveredCount;
@@ -117,7 +156,7 @@ const getWordPronunciation = word => {
     }
   }
   if (bestUncoveredCount > 0) {
-    return getPaleWordPronunciation(word);
+    return getSimpleWordPronunciation(word);
   }
   return bestAlternative;
 };
@@ -141,25 +180,40 @@ const getTextPronunciation = text => {
   return textPronunciation;
 };
 
-console.log(getWordPronunciation('aysel'));
-console.log(getWordPronunciation('ayran'));
-console.log(getWordPronunciation('içtin'));
-console.log(getWordPronunciation('mi'));
-console.log(getWordPronunciation('kaç'));
-console.log(getWordPronunciation('bardak'));
 console.log(getWordPronunciation('ağrı'));
 console.log(getWordPronunciation('ağaç'));
 console.log(getWordPronunciation('ereğli'));
 console.log(getWordPronunciation('gözde'));
 console.log(getWordPronunciation('bilgisayar'));
+console.log(getWordPronunciation('çiğdem'));
 console.log(getWordPronunciation('jilet'));
 console.log(getWordPronunciation('antik'));
 console.log(getWordPronunciation('o'));
 console.log(getWordPronunciation('saat'));
+console.log(getWordPronunciation('emin'));
+console.log(getWordPronunciation('bahadır'));
+console.log(getWordPronunciation('tülüce'));
+console.log(getWordPronunciation('dakika'));
+console.log(getWordPronunciation('tülüce'));
 console.log();
 
-const text = (`
+console.log(getTextPronunciation(`
 Aysel ayran içtin mi? Evet içtim. Ayran içmek istiyorsan iç. Hayır demin içtim.
 Kaç bardak içtin? On bardak içtim. Vay hayvan vay!
-`);
-console.log(getTextPronunciation(text));
+`));
+
+console.log(getTextPronunciation(`
+Taş iletişim kurduğu diğer taşa karşılıklı olarak çevresini ve ona emredileni
+görüntüler ile iletirdi. Bu özelliği sayesinde ülkeler arasındaki en hızlı
+iletişimi sağladılar.
+`));
+
+console.log(getTextPronunciation(`
+Emin Bahadır Tülüce tarafından
+`));
+
+console.log(getTextPronunciation(`
+Gündemde ve sosyal medyada olup bitenlerden geride kalma!
+İnternette anlamadığın, kaçırdığın bir şeye rastlarsan sor ve hemen cevap al.
+Sorulan sorulara, eklenen olaylara veya gönderilere göz at.
+`));

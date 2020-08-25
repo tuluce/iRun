@@ -14,7 +14,10 @@ const generateReverseMap = () => {
       console.log(i, '/', entries.length);
     }
     const entryElements = entry.split(' ');
-    const word = entryElements[0].replace('(2)', '').replace('(3)', '').replace('(4)', '');
+    const word = entryElements[0];
+    if (word.includes('(2)') || word.includes('(3)') || word.includes('(4)')) {
+      return;
+    }
     const phonemes = entryElements.slice(1);
     const key = phonemes.join(' ');
     const previousEntry = reverseDict[key];
