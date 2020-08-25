@@ -1,12 +1,14 @@
 {
   "name": "pronunciaton-helper",
+  "license": "MIT",
   "scripts": {
     "build": "next build",
     "dev": "next dev",
-    "export": "next export",
+    "export": "next build && next export",
     "start": "next start"
   },
   "dependencies": {
+    "@blueprintjs/core": "^3.31.0",
     "next": "^9.5.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"

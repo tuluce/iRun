@@ -1,11 +1,18 @@
 import React from 'react';
-import { getPronunciation } from '../pronunciation/pronounce';
+import Head from 'next/head';
+
+import App from './app';
 
 const HomePage = () => {
   return (
-    <div>
-      Welcome to Next.js, {getPronunciation('bahadır').join('-')}!
-    </div>
+    <>
+      <Head>
+        <link href='https://unpkg.com/normalize.css@^7.0.0' rel='stylesheet' />
+        <link href='https://unpkg.com/@blueprintjs/icons@^3.4.0/lib/css/blueprint-icons.css' rel='stylesheet' />
+        <link href='https://unpkg.com/@blueprintjs/core@^3.10.0/lib/css/blueprint.css' rel='stylesheet' />
+      </Head>
+      <App />
+    </>
   );
 };
 
