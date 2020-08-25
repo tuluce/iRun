@@ -7,10 +7,7 @@ const consonants = [
 
 const vowels = ['a', 'e', 'ı', 'i', 'o', 'ö', 'u', 'ü'];
 
-const LetterType = {
-  CONSONANT: 'CONSONANT',
-  VOWEL: 'VOWEL',
-};
+const LetterType = { CONSONANT: 'consonant', VOWEL: 'vowel' };
 
 const getLetterType = letter => {
   if (consonants.includes(letter)) {
@@ -26,29 +23,15 @@ const isValidLetter = letter => consonants.includes(letter) || vowels.includes(l
 
 const normalizeWord = word => {
   const lowerCaseWord = word.toLocaleLowerCase('TR');
-  const normalizedLetters = [];
-  for (let i = 0; i < lowerCaseWord.length; i++) {
-    const letter = lowerCaseWord[i];
-    if (isValidLetter(letter)) {
-      normalizedLetters.push(letter);
-    }
-  }
-  return normalizedLetters.join('');
+  return [...lowerCaseWord].filter(letter => isValidLetter(letter)).join('');
 };
 
 const getVowelCount = word => {
   const lowerCaseWord = word.toLocaleLowerCase('TR');
-  let vowelCount = 0;
-  for (let i = 0; i < lowerCaseWord.length; i++) {
-    if (getLetterType(lowerCaseWord[i]) === LetterType.VOWEL) {
-      vowelCount++;
-    }
-  }
-  return vowelCount;
+  return [...lowerCaseWord].filter(letter => getLetterType(letter) === LetterType.VOWEL).length;
 };
 
-const hyphenateRecursive = word => {
-  const w = normalizeWord(word);
+const hyphenateRecursive = w => {
   for (let i = 0; i < w.length; i++) {
     if (getLetterType(w.charAt(i)) === LetterType.VOWEL) {
 
@@ -107,14 +90,15 @@ const hyphenateRecursive = word => {
 };
 
 const getProperHyphenation = word => {
-  const result = hyphenateRecursive(word);
+  const normalizedWord = normalizeWord(word);
+  const result = hyphenateRecursive(normalizedWord);
   if (!result || result.length === 0 || (result.length === 1 && result[0] === '')) {
     return [];
   }
   return result;
 };
 
-const test = () => {
+const displayTests = () => {
   console.log(getProperHyphenation('proaktifcilerim'));
   console.log(getProperHyphenation('aortçularım'));
   console.log(getProperHyphenation('paracılarım'));
@@ -134,11 +118,11 @@ const test = () => {
 };
 
 module.exports = {
-  test,
   getProperHyphenation,
   getLetterType,
   LetterType,
   isValidLetter,
   normalizeWord,
   getVowelCount,
+  displayTests,
 };

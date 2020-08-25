@@ -4,17 +4,19 @@ const { LetterType, getLetterType, normalizeWord, getVowelCount } = require('./h
 
 const ConsonantPosition = { LEFT: 'left', RIGHT: 'right' };
 
+const multiplyElements = arr => arr.reduce((a, b) => a * b, 1);
+
 const tokenizeWord = word => {
-  const w = normalizeWord(word);
   const tokens = [];
-  let lastToken = w.charAt(0);
-  for (let i = 1; i < w.length; i++) {
-    if (getLetterType(w.charAt(i)) === getLetterType(lastToken.charAt(0)) &&
-        getLetterType(w.charAt(i)) === LetterType.CONSONANT) {
-      lastToken += w.charAt(i);
+  let lastToken = word.charAt(0);
+  for (let charIndex = 1; charIndex < word.length; charIndex++) {
+    const currentChar = word.charAt(charIndex);
+    if (getLetterType(currentChar) === getLetterType(lastToken.charAt(0)) &&
+        getLetterType(currentChar) === LetterType.CONSONANT) {
+      lastToken += currentChar;
     } else {
       tokens.push(lastToken);
-      lastToken = w.charAt(i);
+      lastToken = currentChar;
     }
   }
   if (lastToken !== '') {
@@ -23,100 +25,106 @@ const tokenizeWord = word => {
   return tokens;
 };
 
-const getAllHyphenations = word => {
-  if (getVowelCount(word) === 0) {
-    return [];
-  }
-  if (word.includes('\'') &&
-      getVowelCount(word.substr(0, word.indexOf('\''))) === 0) {
-    return [];
-  }
-  if (getVowelCount(word) === 1) {
-    return [[word]];
-  }
-  const tokens = tokenizeWord(word);
-  let totalCombinationCount = 1;
+const getCombinationCounts = tokens => {
   const combinationCounts = [];
-  for (let i = 1; i < tokens.length - 1; i++) {
-    if (getLetterType(tokens[i].charAt(0)) === LetterType.CONSONANT) {
-      const combinationCount = (tokens[i].length + 1);
+  for (let tokenIndex = 1; tokenIndex < tokens.length - 1; tokenIndex++) {
+    if (getLetterType(tokens[tokenIndex].charAt(0)) === LetterType.CONSONANT) {
+      const combinationCount = (tokens[tokenIndex].length + 1);
       combinationCounts.push(combinationCount);
-      totalCombinationCount *= combinationCount;
     }
   };
+  return combinationCounts;
+};
 
-  const configurationIndexSets = [];
+const getconfigurationIndexPairSets = (tokens, combinationCounts) => {
+  const totalCombinationCount = multiplyElements(combinationCounts);
+  const configurationIndexPairSets = [];
   for (let combinationIndex = 0; combinationIndex < totalCombinationCount; combinationIndex++) {
-    const configurationIndexSet = [];
+    const configurationIndexPairSet = [];
     let alternatingTokenIndex = 0;
-    for (let i = 1; i < tokens.length - 1; i++) {
-      if (getLetterType(tokens[i].charAt(0)) === LetterType.CONSONANT) {
-        const mult = arr => arr.reduce((a, b) => a * b, 1);
-        const term1 = (Math.floor(combinationIndex / mult(combinationCounts.slice(0, alternatingTokenIndex))));
+    for (let tokenIndex = 1; tokenIndex < tokens.length - 1; tokenIndex++) {
+      if (getLetterType(tokens[tokenIndex].charAt(0)) === LetterType.CONSONANT) {
+        const mult = multiplyElements(combinationCounts.slice(0, alternatingTokenIndex));
+        const term1 = Math.floor(combinationIndex / mult);
         const term2 = combinationCounts[alternatingTokenIndex];
         const configuartionIndex = term1 % term2;
-        configurationIndexSet.push([configuartionIndex, combinationCounts[alternatingTokenIndex]]);
+        const configurationIndexPair = [configuartionIndex, combinationCounts[alternatingTokenIndex]];
+        configurationIndexPairSet.push(configurationIndexPair);
         alternatingTokenIndex++;
       }
     }
-    configurationIndexSets.push(configurationIndexSet);
+    configurationIndexPairSets.push(configurationIndexPairSet);
   }
+  return configurationIndexPairSets;
+};
 
-  const getConfiguration = (configurationIndex, configurationCount) => {
-    const configuration = [];
-    for (let i = 0; i < configurationCount - 1; i++) {
-      if (i < configurationIndex) {
-        configuration.push(ConsonantPosition.LEFT);
-      } else {
-        configuration.push(ConsonantPosition.RIGHT);
-      }
+const getConfiguration = (configurationIndex, configurationCount) => {
+  const configuration = [];
+  for (let i = 0; i < configurationCount - 1; i++) {
+    if (i < configurationIndex) {
+      configuration.push(ConsonantPosition.LEFT);
+    } else {
+      configuration.push(ConsonantPosition.RIGHT);
     }
-    return configuration;
-  };
+  }
+  return configuration;
+};
 
-  const getHyphenation = (tokens, tokenConfigurations) => {
-    let alternatingTokenIndex = 0;
-    const hyphenation = [];
-    if (getLetterType(tokens[0].charAt(0)) === LetterType.VOWEL) {
-      hyphenation.push(tokens[0]);
-    }
-    let rightConsonantBuffer = '';
-    for (let i = 1; i < tokens.length - 1; i++) {
-      if (getLetterType(tokens[i].charAt(0)) === LetterType.VOWEL) {
-        hyphenation.push(rightConsonantBuffer + tokens[i]);
-        rightConsonantBuffer = '';
-      } else if (getLetterType(tokens[i].charAt(0)) === LetterType.CONSONANT) {
-        const tokenConfiguration = tokenConfigurations[alternatingTokenIndex];
-        for (let j = 0; j < tokens[i].length; j++) {
-          const consonant = tokens[i][j];
-          const position = tokenConfiguration[j];
-          if (position === ConsonantPosition.LEFT) {
-            hyphenation[hyphenation.length - 1] = hyphenation[hyphenation.length - 1] + consonant;
-          } else if (position === ConsonantPosition.RIGHT) {
-            rightConsonantBuffer += consonant;
-          }
+const getHyphenation = (tokens, tokenConfigurations) => {
+  let alternatingTokenIndex = 0;
+  const hyphenation = [];
+  if (getLetterType(tokens[0].charAt(0)) === LetterType.VOWEL) {
+    hyphenation.push(tokens[0]);
+  }
+  let rightConsonantBuffer = '';
+  for (let i = 1; i < tokens.length - 1; i++) {
+    if (getLetterType(tokens[i].charAt(0)) === LetterType.VOWEL) {
+      hyphenation.push(rightConsonantBuffer + tokens[i]);
+      rightConsonantBuffer = '';
+    } else if (getLetterType(tokens[i].charAt(0)) === LetterType.CONSONANT) {
+      const tokenConfiguration = tokenConfigurations[alternatingTokenIndex];
+      for (let j = 0; j < tokens[i].length; j++) {
+        const consonant = tokens[i][j];
+        const position = tokenConfiguration[j];
+        if (position === ConsonantPosition.LEFT) {
+          hyphenation[hyphenation.length - 1] = hyphenation[hyphenation.length - 1] + consonant;
+        } else if (position === ConsonantPosition.RIGHT) {
+          rightConsonantBuffer += consonant;
         }
-        alternatingTokenIndex++;
       }
+      alternatingTokenIndex++;
     }
-    if (getLetterType(tokens[tokens.length - 1].charAt(0)) === LetterType.VOWEL) {
-      hyphenation.push(rightConsonantBuffer + tokens[tokens.length - 1]);
-    }
-    if (getLetterType(tokens[0].charAt(0)) === LetterType.CONSONANT) {
-      hyphenation[0] =
-        tokens[0] + hyphenation[0];
-    }
-    if (getLetterType(tokens[tokens.length - 1].charAt(0)) === LetterType.CONSONANT) {
-      hyphenation[hyphenation.length - 1] =
-        hyphenation[hyphenation.length - 1] + tokens[tokens.length - 1];
-    }
-    return hyphenation;
-  };
+  }
+  if (getLetterType(tokens[tokens.length - 1].charAt(0)) === LetterType.VOWEL) {
+    hyphenation.push(rightConsonantBuffer + tokens[tokens.length - 1]);
+  }
+  if (getLetterType(tokens[0].charAt(0)) === LetterType.CONSONANT) {
+    hyphenation[0] =
+      tokens[0] + hyphenation[0];
+  }
+  if (getLetterType(tokens[tokens.length - 1].charAt(0)) === LetterType.CONSONANT) {
+    hyphenation[hyphenation.length - 1] =
+      hyphenation[hyphenation.length - 1] + tokens[tokens.length - 1];
+  }
+  return hyphenation;
+};
 
+const getAllHyphenations = word => {
+  const normalizedWord = normalizeWord(word);
+  if (normalizedWord.length === 0) {
+    return [];
+  }
+  if (getVowelCount(normalizedWord) === 0 || getVowelCount(normalizedWord) === 1) {
+    return [[normalizedWord]];
+  }
+  const tokens = tokenizeWord(normalizedWord);
+  const combinationCounts = getCombinationCounts(tokens);
+  const totalCombinationCount = multiplyElements(combinationCounts);
+  const configurationIndexPairSets = getconfigurationIndexPairSets(tokens, combinationCounts);
   const hyphenations = [];
   for (let combinationIndex = 0; combinationIndex < totalCombinationCount; combinationIndex++) {
-    const configurationIndexSet = configurationIndexSets[combinationIndex];
-    const tokenConfigurations = configurationIndexSet.map(
+    const configurationIndexPairSet = configurationIndexPairSets[combinationIndex];
+    const tokenConfigurations = configurationIndexPairSet.map(
       configurationIndexPair => getConfiguration(configurationIndexPair[0], configurationIndexPair[1]),
     );
     const hyphenation = getHyphenation(tokens, tokenConfigurations);
@@ -125,7 +133,7 @@ const getAllHyphenations = word => {
   return hyphenations;
 };
 
-const test = () => {
+const displayTests = () => {
   console.log(getAllHyphenations('babbababbbab'));
   console.log(getAllHyphenations('bahadır'));
   console.log(getAllHyphenations('santral'));
@@ -135,6 +143,6 @@ const test = () => {
 };
 
 module.exports = {
-  test,
   getAllHyphenations,
+  displayTests,
 };
