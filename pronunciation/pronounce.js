@@ -166,6 +166,9 @@ const getWordPronunciations = word => {
     return wordPronunciations;
   }
   const properWordPronunciation = getProperWordPronunciation(word);
+  if (wordPronunciations.filter(wp => JSON.stringify(wp) === JSON.stringify(properWordPronunciation)).length === 0) {
+    wordPronunciations.push(properWordPronunciation);
+  }
   wordPronunciations.sort((a, b) => {
     let diffScore = getUncoveredSyllableCount(a) - getUncoveredSyllableCount(b);
     if (diffScore === 0) {

@@ -6,7 +6,8 @@ const Pronunciation = props => {
   const wordAnalysis = props.wordAnalysis;
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const pronunciations = wordAnalysis?.pronunciations?.slice(0, 50);
+  const maxHyphenationCount = 10;
+  const pronunciations = wordAnalysis?.pronunciations?.slice(0, maxHyphenationCount);
 
   const maxIndex = pronunciations?.length - 1;
   const minIndex = 0;

@@ -120,6 +120,7 @@ const getAllHyphenations = word => {
   const totalCombinationCount = multiplyElements(combinationCounts);
   const configurationIndexPairSets = getconfigurationIndexPairSets(tokens, combinationCounts);
   const hyphenations = [];
+  const maxHyphenationCount = 10;
   for (let combinationIndex = 0; combinationIndex < totalCombinationCount; combinationIndex++) {
     const configurationIndexPairSet = configurationIndexPairSets[combinationIndex];
     const tokenConfigurations = configurationIndexPairSet.map(
@@ -138,6 +139,9 @@ const getAllHyphenations = word => {
     }
     const hyphenation = getHyphenation(tokens, tokenConfigurations);
     hyphenations.push(hyphenation);
+    if (hyphenations.length >= maxHyphenationCount) {
+      break;
+    }
   }
   return hyphenations;
 };
