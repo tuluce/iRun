@@ -1,16 +1,27 @@
-import React from 'react';
-import { Button, Icon } from '@blueprintjs/core';
-
+import React, { useState } from 'react';
+import { TextArea } from '@blueprintjs/core';
 import { getPronunciation } from '../pronunciation/pronounce';
 
-const HomePage = () => {
+const App = () => {
+  const [inputText, setInputText] = useState('');
   return (
-    <>
-      Welcome to Next.js, {getPronunciation('bahadır').join('-')}!
-      <Icon icon="globe" iconSize={20} />
-      <Button>My button</Button>
-    </>
+    <div className='app'>
+      <h1>Pronounce TR</h1>
+      <div>
+        Enter the Turkish phrase you want to pronounce.
+        <br/><br/>
+        <TextArea
+          fill={true}
+          growVertically={true}
+          large={true}
+          onChange={event => setInputText(event.target.value)}
+          value={inputText}
+        />
+        <br/><br/>
+        {getPronunciation(inputText).join(' ')}
+      </div>
+    </div>
   );
 };
 
-export default HomePage;
+export default App;

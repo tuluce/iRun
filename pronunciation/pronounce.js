@@ -162,6 +162,9 @@ const getFancyWordPronunciations = word => {
 
 const getWordPronunciations = word => {
   const wordPronunciations = getFancyWordPronunciations(word);
+  if (wordPronunciations.length === 0) {
+    return wordPronunciations;
+  }
   wordPronunciations.sort((a, b) => getUncoveredSyllableCount(a) - getUncoveredSyllableCount(b));
   const bestUnceverdSyllableCount = getUncoveredSyllableCount(wordPronunciations[0]);
   if (bestUnceverdSyllableCount > 0) {

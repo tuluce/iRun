@@ -1,0 +1,16 @@
+html {
+  scroll-behavior: smooth;
+}
+
+.app {
+  width: 60%;
+  font-size: 150%;
+  margin: auto;
+  margin-top: 40px;
+}
+
+@media only screen and (max-width: 768px) {
+  [class="app"] {
+    width: 90%;
+  }
+}

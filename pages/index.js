@@ -2,6 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 
 import App from './app';
+import './styles.css';
 
 const HomePage = () => {
   return (
