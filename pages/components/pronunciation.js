@@ -57,11 +57,11 @@ const Pronunciation = props => {
           &nbsp;
           {wordAnalysis.pronounceable}
           &nbsp;&#8594;&nbsp;
-          <b>{pronunciation.display}</b>
+          <b>{pronunciation?.display}</b>
           &nbsp;({actualIndex + 1} / {pronunciations?.length})
           <br/>
           <br/>
-          {pronunciation.words.map((word, i) => (
+          {pronunciation?.words.map((word, i) => (
             <div className='pronunciation-word-line' key={i}>
               <b>{word}</b> {renderExplanation(word)}
             </div>
@@ -80,7 +80,7 @@ const Pronunciation = props => {
           />
         </div>
       )}>
-        <Button className='pronunciation-button'>{pronunciation.display}</Button>
+        <Button className='pronunciation-button'>{pronunciation?.display}</Button>
       </Popover>
     </span>
   );

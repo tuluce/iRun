@@ -7,15 +7,17 @@ import { getPronunciation } from '../pronunciation/pronounce';
 const App = () => {
   const [inputText, setInputText] = useState('');
   const pronunciationAnalysis = getPronunciation(inputText, { analysis: true });
-  const pronunciationComponents = pronunciationAnalysis.map(
-    (wordAnalysis, i) => {
-      return (
-        <span key={i}>
-          <Pronunciation wordAnalysis={wordAnalysis} />
-        </span>
-      );
-    },
-  );
+  const pronunciationComponents = pronunciationAnalysis
+    .filter(wordAnalysis => wordAnalysis.pronunciations.length > 0)
+    .map(
+      (wordAnalysis, i) => {
+        return (
+          <span key={i}>
+            <Pronunciation wordAnalysis={wordAnalysis} />
+          </span>
+        );
+      },
+    );
   return (
     <div className='app'>
       <h1>Pronounce TR</h1>
