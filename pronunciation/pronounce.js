@@ -130,7 +130,7 @@ const getSimpleSyllablePronunciation = syllable => {
   };
 };
 
-const getSimpleWordPronunciation = word => {
+const getProperWordPronunciation = word => {
   const syllables = getProperHyphenation(word);
   const pronunciation = [];
   for (let i = 0; i < syllables.length; i++) {
@@ -165,14 +165,18 @@ const getWordPronunciations = word => {
   if (wordPronunciations.length === 0) {
     return wordPronunciations;
   }
-  wordPronunciations.sort((a, b) => getUncoveredSyllableCount(a) - getUncoveredSyllableCount(b));
-  const bestUnceverdSyllableCount = getUncoveredSyllableCount(wordPronunciations[0]);
-  if (bestUnceverdSyllableCount > 0) {
-    const simpleWordPronunciation = getSimpleWordPronunciation(word);
-    if (simpleWordPronunciation.join('-') !== wordPronunciations[0].join('-')) {
-      wordPronunciations.unshift(simpleWordPronunciation);
+  const properWordPronunciation = getProperWordPronunciation(word);
+  wordPronunciations.sort((a, b) => {
+    let diffScore = getUncoveredSyllableCount(a) - getUncoveredSyllableCount(b);
+    if (diffScore === 0) {
+      if (JSON.stringify(properWordPronunciation) === JSON.stringify(a)) {
+        return -1;
+      } else if (JSON.stringify(properWordPronunciation) === JSON.stringify(b)) {
+        return +1;
+      }
     }
-  }
+    return diffScore;
+  });
   return wordPronunciations;
 };
 

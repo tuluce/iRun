@@ -125,6 +125,17 @@ const getAllHyphenations = word => {
     const tokenConfigurations = configurationIndexPairSet.map(
       configurationIndexPair => getConfiguration(configurationIndexPair[0], configurationIndexPair[1]),
     );
+    let hasInvalidConfiguration = false;
+    for (let i = 0; i < tokenConfigurations.length; i++) {
+      const tokenConfiguration = tokenConfigurations[i];
+      if (tokenConfiguration.length >= 3 && tokenConfiguration.every(position => position === tokenConfiguration[0])) {
+        hasInvalidConfiguration = true;
+        break;
+      }
+    }
+    if (hasInvalidConfiguration) {
+      continue;
+    }
     const hyphenation = getHyphenation(tokens, tokenConfigurations);
     hyphenations.push(hyphenation);
   }
