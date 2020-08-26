@@ -37,5 +37,9 @@ html {
 }
 
 .app-extra-buttons {
-  margin-top: 21.5px;
+  margin-top: 22px;
+}
+
+.drawer-content {
+  padding: 10px;
 }

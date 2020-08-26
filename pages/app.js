@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, TextArea, AnchorButton } from '@blueprintjs/core';
+import { Button, TextArea, AnchorButton, Drawer } from '@blueprintjs/core';
 
 import Pronunciation from './components/pronunciation';
 import { getPronunciation } from '../pronunciation/pronounce';
@@ -19,6 +19,7 @@ const exampleTexts = [
 const App = () => {
   const [inputText, setInputText] = useState('');
   const [exampleIndex, setExampleIndex] = useState(0);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const pronunciationAnalysis = getPronunciation(inputText, { analysis: true });
 
@@ -41,6 +42,13 @@ const App = () => {
     setInputText(exampleText);
   };
 
+  const getDrawerSize = () => {
+    if (typeof window !== 'undefined') {
+      return `${Math.min(window.innerWidth, 450)}px`;
+    }
+    return '450px';
+  };
+
   return (
     <div className='app'>
       <div className='justifier-container'>
@@ -50,6 +58,7 @@ const App = () => {
             <Button
               icon='help'
               text='About'
+              onClick={() => setIsDrawerOpen(true)}
             />
             &nbsp;
             <AnchorButton
@@ -87,6 +96,17 @@ const App = () => {
         <br/><br/>
         {pronunciationComponents}
       </div>
+      <Drawer
+        isOpen={isDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
+        size={getDrawerSize()}
+        icon='info-sign'
+        title='About Pronounce TR'
+      >
+        <div className='drawer-content'>
+          <h2>What is it?</h2>
+        </div>
+      </Drawer>
     </div>
   );
 };
