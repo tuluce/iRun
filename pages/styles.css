@@ -30,16 +30,16 @@ html {
   margin-bottom: 2.7px;
 }
 
-.justifier-container {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
+.meta-buttons-wrapper {
+  display: inline;
 }
 
-.app-extra-buttons {
-  margin-top: 22px;
+.meta-button {
+  margin-bottom: 10px;
+  width: 40px;
 }
 
 .drawer-content {
   padding: 10px;
+  font-size: 120%;
 }
