@@ -14,6 +14,7 @@ const exampleTexts = [
   'İşletim sistemleri, veritabanları ve nesne yönelimli programlama',
   'Türkiye Cumhuriyeti',
   'Sıradaki sefer saat kaçta?',
+  'Hiç şüphesiz ki Antalya dünyanın en güzel yeridir.',
 ];
 
 const App = () => {
@@ -50,7 +51,7 @@ const App = () => {
   };
 
   return (
-    <div className='app'>
+    <div className='app bp3-dark'>
       <h1>
         Pronounce TR&nbsp;
         <div className='meta-buttons-wrapper'>
