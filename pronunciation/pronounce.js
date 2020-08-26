@@ -178,7 +178,7 @@ const getWordPronunciations = word => {
 
 const getPronunciationAnalysis = text => {
   const pronunciationAnalysis = [];
-  text.split(' ').forEach(word => {
+  text.split(/[\s,.-]/).forEach(word => {
     if (word.length === 0) {
       return;
     }

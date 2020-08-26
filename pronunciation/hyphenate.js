@@ -29,9 +29,11 @@ const normalizeWord = word => {
   const lowerCaseWord = word.toLocaleLowerCase('TR');
   let replacedWord = lowerCaseWord;
   while (hasReplacements(replacedWord)) {
-    Object.keys(replacements).forEach(letterToReplace => {
-      replacedWord.replace(letterToReplace, replacements[letterToReplace]);
-    });
+    const lettersToReplace = Object.keys(replacements);
+    for (let i = 0; i < lettersToReplace.length; i++) {
+      const letterToReplace = lettersToReplace[i];
+      replacedWord = replacedWord.replace(letterToReplace, replacements[letterToReplace]);
+    }
   }
   return [...replacedWord].filter(letter => isValidLetter(letter)).join('');
 };
