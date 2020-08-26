@@ -6,10 +6,12 @@ const Pronunciation = props => {
   const wordAnalysis = props.wordAnalysis;
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const maxIndex = wordAnalysis?.pronunciations?.length - 1;
+  const pronunciations = wordAnalysis?.pronunciations?.slice(0, 50);
+
+  const maxIndex = pronunciations?.length - 1;
   const minIndex = 0;
   const actualIndex = Math.min(Math.max(activeIndex, minIndex), maxIndex);
-  const pronunciation = wordAnalysis.pronunciations[actualIndex];
+  const pronunciation = pronunciations[actualIndex];
 
   const goNext = () => {
     setActiveIndex(Math.min(maxIndex, actualIndex + 1));
@@ -62,7 +64,7 @@ const Pronunciation = props => {
           {wordAnalysis.pronounceable}
           &nbsp;&#8594;&nbsp;
           <b>{pronunciation.display}</b>
-          &nbsp;({actualIndex + 1} / {wordAnalysis?.pronunciations?.length})
+          &nbsp;({actualIndex + 1} / {pronunciations?.length})
           <br/>
           <br/>
           {pronunciation.words.map((word, i) => (
