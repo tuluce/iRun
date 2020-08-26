@@ -42,4 +42,10 @@ html {
 .drawer-content {
   padding: 10px;
   font-size: 120%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.drawer-content::-webkit-scrollbar {
+  display: none;
 }
