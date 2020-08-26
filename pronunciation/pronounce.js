@@ -186,7 +186,7 @@ const getPronunciationAnalysis = text => {
     const wordPronunciations = getWordPronunciations(normalizedWord);
     const wordAnalysis = {};
     wordAnalysis.original = word;
-    wordAnalysis.pronouncable = normalizedWord;
+    wordAnalysis.pronounceable = normalizedWord;
     wordAnalysis.pronunciations = wordPronunciations.map(wordPronunciation => {
       const display = wordPronunciation.map(wordPronunciation => wordPronunciation.word).join('-');
       const words = wordPronunciation.map(wordPronunciation => wordPronunciation.word);

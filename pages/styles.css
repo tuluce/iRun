@@ -4,7 +4,6 @@ html {
 
 .app {
   width: 60%;
-  font-size: 150%;
   margin: auto;
   margin-top: 40px;
 }
@@ -13,4 +12,16 @@ html {
   [class="app"] {
     width: 90%;
   }
+}
+
+.pornunciation-popover {
+  padding: 10px;
+}
+
+.pronunciation-button {
+  margin: 4px;
+}
+
+.pronunciation-word-line {
+  margin-bottom: 3px;
 }
