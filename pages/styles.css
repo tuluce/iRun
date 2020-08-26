@@ -29,3 +29,13 @@ html {
 .examples-button {
   margin-bottom: 2.7px;
 }
+
+.justifier-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.app-extra-buttons {
+  margin-top: 21.5px;
+}

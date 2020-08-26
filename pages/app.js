@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
-import { Button, TextArea } from '@blueprintjs/core';
+import { Button, TextArea, AnchorButton } from '@blueprintjs/core';
 
 import Pronunciation from './components/pronunciation';
 import { getPronunciation } from '../pronunciation/pronounce';
+import GithubIcon from './components/github-icon';
 
 const exampleTexts = [
   'Merhaba dünya!',
   'Antik diyarlardan bir gezgine rastladım.',
   'Sabah reçel yemek istiyorum.',
-  'İnsanlara örnek, akıl verici, eğitici...',
+  'İşletim sistemleri, veritabanları ve nesne yönelimli programlama',
   'Sıradaki sefer saat kaçta?',
-  'Emin Bahadır Tülüce',
   'İhsan Doğramacı Bilkent Üniversitesi',
+  'Emin Bahadır Tülüce',
   'Türkiye Cumhuriyeti',
 ];
 
@@ -42,7 +43,24 @@ const App = () => {
 
   return (
     <div className='app'>
-      <h1>Pronounce TR</h1>
+      <div className='justifier-container'>
+        <h1>Pronounce TR</h1>
+        <div>
+          <div className='app-extra-buttons'>
+            <Button
+              icon='help'
+              text='About'
+            />
+            &nbsp;
+            <AnchorButton
+              icon={<GithubIcon />}
+              href='https://github.com/tuluce/pronounce-tr'
+              target='_blank'
+              rel='noreferrer'
+            />
+          </div>
+        </div>
+      </div>
       <div>
         <div>
           <p>Enter the Turkish phrase you want to pronounce.</p>
