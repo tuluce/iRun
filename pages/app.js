@@ -12,7 +12,6 @@ const exampleTexts = [
   'İhsan Doğramacı Bilkent Üniversitesi',
   'Sabah reçel yemek istiyorum.',
   'İşletim sistemleri, veritabanları ve nesne yönelimli programlama',
-  'Türkiye Cumhuriyeti',
   'Sıradaki sefer saat kaçta?',
   'Hiç şüphesiz ki Antalya dünyanın en güzel yeridir.',
 ];
@@ -93,7 +92,7 @@ const App = () => {
           value={inputText}
           rows={5}
         />
-        <br/><br/>
+        <br/><br/><br/>
         {pronunciationComponents}
       </div>
       <Drawer
