@@ -71,12 +71,14 @@ const Pronunciation = props => {
             icon='arrow-left'
             text='Previous'
             onClick={goPrevious}
+            disabled={actualIndex === minIndex}
           />
           &nbsp;
           <Button
             rightIcon='arrow-right'
             text='Next'
             onClick={goNext}
+            disabled={actualIndex === maxIndex}
           />
         </div>
       )}>

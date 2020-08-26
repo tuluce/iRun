@@ -25,8 +25,9 @@ const App = () => {
     .filter(wordAnalysis => wordAnalysis.pronunciations.length > 0)
     .map(
       (wordAnalysis, i) => {
+        const key = JSON.stringify([wordAnalysis.pronounceable, i]);
         return (
-          <span key={i}>
+          <span key={key}>
             <Pronunciation wordAnalysis={wordAnalysis} />
           </span>
         );
@@ -46,8 +47,14 @@ const App = () => {
         <div>
           <p>Enter the Turkish phrase you want to pronounce.</p>
           <p>
-            ( or check out some
-            <Button className='examples-button' small minimal text='examples' onClick={showNextExample} />
+            ( or check out some of the
+            <Button
+              className='examples-button'
+              minimal
+              small
+              onClick={showNextExample}
+              text={<i>examples</i>}
+            />
             )
           </p>
         </div>
