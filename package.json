@@ -8,7 +8,6 @@
   },
   "dependencies": {
     "@blueprintjs/core": "^3.31.0",
-    "@zeit/next-css": "^1.0.1",
     "next": "^9.5.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"

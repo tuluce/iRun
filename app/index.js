@@ -3,21 +3,9 @@ import { Button, TextArea, AnchorButton, Toaster, Intent } from '@blueprintjs/co
 
 import Pronunciation from './components/pronunciation';
 import { getPronunciation } from '../pronunciation/pronounce';
-import GithubIcon from './components/github-icon';
-import AyranIcon from './components/ayran-icon';
+import GithubIcon from './icons/github-icon';
+import AyranIcon from './icons/ayran-icon';
 import InfoDrawer from './components/info-drawer';
-
-const exampleTexts = [
-  'Merhaba dünya!',
-  'Emin Bahadır Tülüce',
-  'Ayran içmek istiyorsan iç.',
-  'İhsan Doğramacı Bilkent Üniversitesi',
-  'Antik diyarlardan bir gezgine rastladım.',
-  'Sabah reçel yemek istiyorum.',
-  'işletim sistemleri, veritabanları ve nesne yönelimli programlama',
-  'Sıradaki sefer saat kaçta?',
-  'Hiç şüphesiz ki Antalya dünyanın en güzel yeridir.',
-];
 
 const App = () => {
   const [inputText, setInputText] = useState('');
@@ -64,6 +52,17 @@ const App = () => {
     );
 
   const showNextExample = () => {
+    const exampleTexts = [
+      'Merhaba dünya!',
+      'Emin Bahadır Tülüce',
+      'Ayran içmek istiyorsan iç.',
+      'İhsan Doğramacı Bilkent Üniversitesi',
+      'Antik diyarlardan bir gezgine rastladım.',
+      'Sabah reçel yemek istiyorum.',
+      'işletim sistemleri, veritabanları ve nesne yönelimli programlama',
+      'Sıradaki sefer saat kaçta?',
+      'Hiç şüphesiz ki Antalya dünyanın en güzel yeridir.',
+    ];
     const exampleText = exampleTexts[exampleIndex];
     setExampleIndex((exampleIndex + 1) % exampleTexts.length);
     setInputText(exampleText);

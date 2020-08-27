@@ -1,6 +1,6 @@
 import React from 'react';
 
-const GithubIcon = () => (
+const AyranIcon = () => (
   <>
     <svg version= '1.1' id= 'Capa_1' xmlns= 'http://www.w3.org/2000/svg' x= '0px' y='0px'
       viewBox= '0 0 511.999 511.999' className='ayran-icon' width='42' height='42' fill='currentColor'
@@ -15,4 +15,4 @@ const GithubIcon = () => (
   </>
 );
 
-export default GithubIcon;
+export default AyranIcon;
