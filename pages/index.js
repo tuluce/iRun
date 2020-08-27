@@ -18,7 +18,7 @@ const HomePage = () => {
         <meta property='og:type' content='website' />
         <meta property='og:title' content='iRun' />
         <meta property='og:description' content='A web app to help with the pronunciation of Turkish words' />
-        <meta property='og:image' content='./favicon.png' />
+        <meta property='og:image' content='./irun.png' />
       </Head>
       <App />
     </>
