@@ -3,6 +3,8 @@ import Head from 'next/head';
 
 import App from '../app';
 
+const rootUrl = 'https://irun.netlify.app';
+
 const HomePage = () => {
   return (
     <>
@@ -11,7 +13,7 @@ const HomePage = () => {
         <link href='https://unpkg.com/@blueprintjs/icons@^3.4.0/lib/css/blueprint-icons.css' rel='stylesheet' />
         <link href='https://unpkg.com/@blueprintjs/core@^3.10.0/lib/css/blueprint.css' rel='stylesheet' />
         <link href='/styles.css' rel='stylesheet' />
-        <link rel='icon ' type='image/png ' href='/favicon.png' />
+        <link rel='icon ' type='image/x-icon' href='/favicon.ico' />
         <title>iRun - Pronounce Turkish phrases</title>
         <meta name='description' content='A web app to help with the pronunciation of Turkish words and phrases' />
         <meta property='og:site_name' content='iRun' />
@@ -19,7 +21,10 @@ const HomePage = () => {
         <meta property='og:title' content='iRun - Pronounce Turkish phrases' />
         {/* eslint-disable-next-line max-len */}
         <meta property='og:description' content='A web app to help with the pronunciation of Turkish words and phrases' />
-        <meta property='og:image' content='/irun.png' />
+        <meta property='og:url' content={rootUrl} />
+        <meta property='og:image' content={`${rootUrl}/irun.png`} />
+        <meta property="og:image:width" content="640" />
+        <meta property="og:image:height" content="560" />
       </Head>
       <App />
     </>
