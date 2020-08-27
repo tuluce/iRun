@@ -12,9 +12,10 @@ const exampleTexts = [
   'Antik diyarlardan bir gezgine rastladım.',
   'İhsan Doğramacı Bilkent Üniversitesi',
   'Sabah reçel yemek istiyorum.',
-  'İşletim sistemleri, veritabanları ve nesne yönelimli programlama',
+  'işletim sistemleri, veritabanları ve nesne yönelimli programlama',
   'Sıradaki sefer saat kaçta?',
   'Hiç şüphesiz ki Antalya dünyanın en güzel yeridir.',
+  'Ayran içmek istiyorsan iç.',
 ];
 
 const App = () => {
