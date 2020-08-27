@@ -23,7 +23,7 @@ const HomePage = () => {
         <meta property='og:description' content='A web app to help with the pronunciation of Turkish words and phrases' />
         <meta property='og:url' content={rootUrl} />
         <meta property='og:image' content={`${rootUrl}/irun.png`} />
-        <meta property="og:image:width" content="640" />
+        <meta property="og:image:width" content="1067" />
         <meta property="og:image:height" content="560" />
       </Head>
       <App />
