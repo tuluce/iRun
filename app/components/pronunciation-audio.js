@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Intent, Toaster } from '@blueprintjs/core';
+import { Button, Icon, Intent, Toaster } from '@blueprintjs/core';
 
 const AudioState = { IDLE: 'idle', LOADING: 'loading', PLAYING: 'playing', FAILED: 'failed' };
 
@@ -46,9 +46,17 @@ const PronunciationAudio = props => {
   };
 
   const displayError = () => {
+    const q = encodeURI(props.pronounceable);
+    const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${q}&tl=tr&client=tw-ob&ttsspeed=0.24`;
     if (toasterRef) {
       toasterRef.show({
-        message: 'An error occured while loading the text-to-speech audio.',
+        message: (
+          <div>
+            An error occured while loading the text-to-speech audio.
+            <br/><br/>
+            Try listening it from <a href={url} target='_blank' rel='noreferrer'>this link <Icon icon='share'/></a>.
+          </div>
+        ),
         icon: 'warning-sign',
         intent: Intent.DANGER,
       });
