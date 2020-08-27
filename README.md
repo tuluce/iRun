@@ -6,6 +6,14 @@ A web app to help with the pronunciation of Turkish words
 
 Live : [irun.netlify.app](https://irun.netlify.app)
 
+## Scripts
+- Install dependencies : `yarn install`
+- Lint source code : `yarn lint`
+- Preprocess data : `yarn preprocess`
+- Start development server : `yarn dev`
+- Build and generate the app page to the `/out` directory : `yarn export`
+- Serve the generated page in the `/out` directory : `yarn serve`
+
 ## How does it work?
 ### Preprocessing steps - `/preprocessing`
 1. The words which do not exist in the standard English dictionary are filtered from CMUdict. [`generate-filtered-dict.js`](./preprocessing/generate-filtered-dict.js)
@@ -32,14 +40,6 @@ Live : [irun.netlify.app](https://irun.netlify.app)
 ### User interface - `/app`
 1. Consists of a single Next.js statically-generated page with no back-end.
 2. The reverse mapping file is loaded to the client app, so the algorithm runs on the browser.
-
-## Scripts
-- Install dependencies : `yarn install`
-- Lint source code : `yarn lint`
-- Preprocess data : `yarn preprocess`
-- Start development server : `yarn dev`
-- Build and generate the app page to the `/out` directory : `yarn export`
-- Serve the generated page in the `/out` directory : `yarn serve`
 
 ## References
 - Pronunciation dictionary data source: [Carnegie Mellon Pronouncing Dictionary](https://github.com/cmusphinx/cmudict)
