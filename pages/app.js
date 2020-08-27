@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, TextArea, AnchorButton, Drawer } from '@blueprintjs/core';
 
 import Pronunciation from './components/pronunciation';
@@ -20,6 +20,15 @@ const App = () => {
   const [inputText, setInputText] = useState('');
   const [exampleIndex, setExampleIndex] = useState(0);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.querySelector('html').style.backgroundColor = '#30404d';
+    } else {
+      document.querySelector('html').style.backgroundColor = '#ffffff';
+    }
+  }, [isDarkMode]);
 
   const pronunciationAnalysis = getPronunciation(inputText, { analysis: true });
 
@@ -50,25 +59,34 @@ const App = () => {
   };
 
   return (
-    <div className='app bp3-dark'>
-      <h1>
-        Pronounce TR&nbsp;
-        <div className='meta-buttons-wrapper'>
+    <div className={`app ${isDarkMode ? 'bp3-dark' : ''}`}>
+      <div className='justifier-container'>
+        <h1>
+          Pronounce TR&nbsp;
+          <div className='meta-buttons-wrapper'>
+            <Button
+              className='meta-button'
+              icon='help'
+              onClick={() => setIsDrawerOpen(true)}
+            />
+            &nbsp;
+            <AnchorButton
+              className='meta-button'
+              icon={<GithubIcon />}
+              href='https://github.com/tuluce/pronounce-tr'
+              target='_blank'
+              rel='noreferrer'
+            />
+          </div>
+        </h1>
+        <div className='right-meta-button-wrapper'>
           <Button
             className='meta-button'
-            icon='help'
-            onClick={() => setIsDrawerOpen(true)}
-          />
-          &nbsp;
-          <AnchorButton
-            className='meta-button'
-            icon={<GithubIcon />}
-            href='https://github.com/tuluce/pronounce-tr'
-            target='_blank'
-            rel='noreferrer'
+            icon='moon'
+            onClick={() => setIsDarkMode(!isDarkMode)}
           />
         </div>
-      </h1>
+      </div>
       <div>
         <div>
           <p>Enter the Turkish phrase you want to pronounce.</p>

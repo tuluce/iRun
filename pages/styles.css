@@ -1,6 +1,5 @@
 html {
   scroll-behavior: smooth;
-  background-color: #30404d;
 }
 
 .app {
@@ -49,4 +48,14 @@ html {
 
 .drawer-content::-webkit-scrollbar {
   display: none;
+}
+
+.justifier-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.right-meta-button-wrapper {
+  margin-top: 21.5px;
 }
