@@ -1,5 +1,5 @@
 {
-  "name": "pronunciaton-helper",
+  "name": "irun",
   "license": "MIT",
   "scripts": {
     "dev": "next dev",
