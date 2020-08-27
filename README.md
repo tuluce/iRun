@@ -4,7 +4,9 @@
 
 A web app to help with the pronunciation of Turkish words
 
-Live : [irun.netlify.app](https://irun.netlify.app)
+[irun.netlify.app](https://irun.netlify.app)
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/9aa60e1d-b436-4837-9651-616e973b6655/deploy-status)](https://irun.netlify.app) 
 
 ## Scripts
 - Install dependencies : `yarn install`
