@@ -6,6 +6,7 @@ import { getPronunciation } from '../pronunciation/pronounce';
 import GithubIcon from './icons/github-icon';
 import AyranIcon from './icons/ayran-icon';
 import InfoDrawer from './components/info-drawer';
+import AnalyticsWrapper from './components/analytics-wrapper';
 
 const App = () => {
   const [inputText, setInputText] = useState('');
@@ -175,6 +176,7 @@ const App = () => {
       </div>
       <InfoDrawer {...{isDrawerOpen, setIsDrawerOpen}} />
       <Toaster ref={ref => setToasterRef(ref)} maxToasts={1} />
+      <AnalyticsWrapper />
     </div>
   );
 };
