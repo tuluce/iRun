@@ -2,7 +2,7 @@
 
 <img src='./public/irun.png' alt='irun logo' align='right' />
 
-A web app to help with the pronunciation of Turkish words
+A web app to help with the pronunciation of Turkish words and phrases
 
 [irun.netlify.app](https://irun.netlify.app)
 

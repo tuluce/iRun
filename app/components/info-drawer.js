@@ -20,8 +20,8 @@ const InfoDrawer = props => {
       <div className='drawer-content'>
         <h3>What</h3>
         <p>
-          An open-source web app to help with the pronunciation of Turkish words. To check out the source
-          code or contribute, please visit{' '}
+          An open-source web app to help with the pronunciation of Turkish words and phrases. To check out
+          the source code or contribute, please visit{' '}
           <a href='https://github.com/tuluce/iRun' target='_blank' rel='noreferrer'>the GitHub repository</a>.
         </p>
         <h3>Why</h3>
