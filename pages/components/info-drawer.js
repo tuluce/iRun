@@ -15,7 +15,7 @@ const InfoDrawer = props => {
       onClose={() => setIsDrawerOpen(false)}
       size={getDrawerSize()}
       icon='info-sign'
-      title='About Pronounce TR'
+      title='About iRun'
     >
       <div className='drawer-content'>
         <h3>What</h3>
@@ -25,16 +25,17 @@ const InfoDrawer = props => {
         </p>
         <h3>Why</h3>
         <p>
-          Unlike any other pronunciation dictionaries, Pronounce TR attempts to find
+          Unlike any other pronunciation dictionaries, <i>iRun</i> attempts to find
           English dictionary words which have close pronunciations to the target Turkish
-          syllable. The goal is to make the prounciation easier to the people who are not
-          familiar with Turkish.
+          syllable. The goal is to make the prounciation easier for the people who are not
+          familiar with Turkish. You can also benefit from this app if you have a Turkish
+          name and you have hard time making other people pronounce it correctly.
         </p>
         <h3>How</h3>
         <p>
-          Pronounce TR uses the CMUdict (the Carnegie Mellon Pronouncing Dictionary) to
-          find English matches to Turkish syllables. Dividing Turkish words into syllables
-          is done in various ways. You can check out the documentation for the full explanation.
+          The algorithm behind <i>iRun</i> uses the CMUdict (the Carnegie Mellon Pronouncing
+          Dictionary) to find English matches to Turkish syllables. You can check out the
+          documentation for the full explanation.
         </p>
         <br />
         <hr />

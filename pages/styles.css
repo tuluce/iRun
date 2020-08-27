@@ -60,3 +60,12 @@ html {
 .right-meta-button-wrapper {
   margin-top: 21.5px;
 }
+
+.ayran-icon {
+  enable-background:new 0 0 512 512;
+}
+
+.ayran-icon-wrapper {
+  float: left;
+  margin-right: 8px;
+}

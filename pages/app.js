@@ -4,6 +4,7 @@ import { Button, TextArea, AnchorButton, Toaster, Intent } from '@blueprintjs/co
 import Pronunciation from './components/pronunciation';
 import { getPronunciation } from '../pronunciation/pronounce';
 import GithubIcon from './components/github-icon';
+import AyranIcon from './components/ayran-icon';
 import InfoDrawer from './components/info-drawer';
 
 const exampleTexts = [
@@ -92,7 +93,7 @@ const App = () => {
     <div className={`app ${isDarkMode ? 'bp3-dark' : ''}`}>
       <div className='justifier-container'>
         <h1>
-          Pronounce TR&nbsp;
+          iRun&nbsp;
           <div className='meta-buttons-wrapper'>
             <Button
               className='meta-button'
@@ -103,7 +104,7 @@ const App = () => {
             <AnchorButton
               className='meta-button'
               icon={<GithubIcon />}
-              href='https://github.com/tuluce/pronounce-tr'
+              href='https://github.com/tuluce/iRun'
               target='_blank'
               rel='noreferrer'
             />
@@ -119,18 +120,23 @@ const App = () => {
       </div>
       <div>
         <div>
-          <p>Enter the Turkish phrase you want to pronounce.</p>
-          <p>
-            ( or check out some of the
-            <Button
-              className='examples-button'
-              minimal
-              small
-              onClick={showNextExample}
-              text={<i>examples</i>}
-            />
-            )
-          </p>
+          <div className='ayran-icon-wrapper'>
+            <AyranIcon />
+          </div>
+          <div>
+            <p>Enter the Turkish phrase you want to pronounce.</p>
+            <p>
+              ( or check out some of the
+              <Button
+                className='examples-button'
+                minimal
+                small
+                onClick={showNextExample}
+                text={<i>examples</i>}
+              />
+              )
+            </p>
+          </div>
         </div>
         <TextArea
           fill={true}
