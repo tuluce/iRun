@@ -20,8 +20,9 @@ const InfoDrawer = props => {
       <div className='drawer-content'>
         <h3>What</h3>
         <p>
-          An open-source web app to help with the pronunciation of Turkish words. To check
-          out the source code or contribute, please visit the GitHub repository.
+          An open-source web app to help with the pronunciation of Turkish words. To check out the source
+          code or contribute, please visit{' '}
+          <a href='https://github.com/tuluce/iRun' target='_blank' rel='noreferrer'>the GitHub repository</a>.
         </p>
         <h3>Why</h3>
         <p>
@@ -33,9 +34,12 @@ const InfoDrawer = props => {
         </p>
         <h3>How</h3>
         <p>
-          The algorithm behind <i>iRun</i> uses the CMUdict (the Carnegie Mellon Pronouncing
-          Dictionary) to find English matches to Turkish syllables. You can check out the
-          documentation for the full explanation.
+          The algorithm behind <i>iRun</i> uses{' '}
+          <a href='https://github.com/cmusphinx/cmudict' target='_blank' rel='noreferrer'>CMUdict</a>
+          {' '}(the Carnegie Mellon Pronouncing Dictionary) to find English matches to Turkish
+          syllables. You can check out{' '}
+          <a href='https://github.com/tuluce/iRun#readme' target='_blank' rel='noreferrer'>the documentation</a>
+          {' '}for the full explanation.
         </p>
         <br />
         <hr />
