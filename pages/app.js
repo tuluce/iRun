@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Button, TextArea, AnchorButton, Drawer } from '@blueprintjs/core';
+import { Button, TextArea, AnchorButton, Toaster, Intent } from '@blueprintjs/core';
 
 import Pronunciation from './components/pronunciation';
 import { getPronunciation } from '../pronunciation/pronounce';
 import GithubIcon from './components/github-icon';
+import InfoDrawer from './components/info-drawer';
 
 const exampleTexts = [
   'Merhaba dünya!',
@@ -21,6 +22,9 @@ const App = () => {
   const [exampleIndex, setExampleIndex] = useState(0);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
+  const [pronunciatonText, setPronunciatonText] = useState('');
+  const [activeIndicesTrigger, setActiveIndicesTrigger] = useState(0);
+  const [toasterRef, setToasterRef] = useState();
 
   useEffect(() => {
     if (isDarkMode) {
@@ -29,6 +33,12 @@ const App = () => {
       document.querySelector('html').style.backgroundColor = '#ffffff';
     }
   }, [isDarkMode]);
+
+  useEffect(() => {
+    const pronuncationButtons = document.getElementById('pronunciation-buttons');
+    const text = pronuncationButtons.innerText;
+    setPronunciatonText(text.replaceAll('\n', ' '));
+  }, [inputText, activeIndicesTrigger]);
 
   const pronunciationAnalysis = getPronunciation(inputText, { analysis: true });
 
@@ -39,7 +49,10 @@ const App = () => {
         const key = JSON.stringify([wordAnalysis.pronounceable, i]);
         return (
           <span key={key}>
-            <Pronunciation wordAnalysis={wordAnalysis} />
+            <Pronunciation
+              wordAnalysis={wordAnalysis}
+              setActiveIndicesTrigger={setActiveIndicesTrigger}
+            />
           </span>
         );
       },
@@ -51,11 +64,24 @@ const App = () => {
     setInputText(exampleText);
   };
 
-  const getDrawerSize = () => {
-    if (typeof window !== 'undefined') {
-      return `${Math.min(window.innerWidth, 450)}px`;
+  const displayCopiedMessage = () => {
+    if (toasterRef) {
+      toasterRef.show({
+        message: 'Copied pronunciation to clipboard!',
+        icon: 'tick',
+        intent: Intent.SUCCESS,
+      });
     }
-    return '450px';
+  };
+
+  const copyPronunciation = () => {
+    const input = document.createElement('input');
+    input.setAttribute('value', pronunciatonText);
+    document.body.appendChild(input);
+    input.select();
+    document.execCommand('copy');
+    document.body.removeChild(input);
+    displayCopiedMessage();
   };
 
   return (
@@ -110,41 +136,18 @@ const App = () => {
           value={inputText}
           rows={5}
         />
-        <br/><br/><br/>
-        {pronunciationComponents}
-      </div>
-      <Drawer
-        isOpen={isDrawerOpen}
-        onClose={() => setIsDrawerOpen(false)}
-        size={getDrawerSize()}
-        icon='info-sign'
-        title='About Pronounce TR'
-      >
-        <div className='drawer-content'>
-          <h3>What?</h3>
-          <p>
-            An open-source web app to help with the pronunciation of Turkish words. To check
-            out the source code or contribute, please visit the GitHub repository.
-          </p>
-          <h3>Why?</h3>
-          <p>
-            Unlike any other pronunciation dictionaries, Pronounce TR attempts to find
-            English dictionary words which have close pronunciations to the target Turkish
-            syllable. The goal is to make the prounciation easier to the people who are not
-            familiar with Turkish.
-          </p>
-          <h3>How?</h3>
-          <p>
-            Pronounce TR uses the CMUdict (the Carnegie Mellon Pronouncing Dictionary) to
-            find English matches to Turkish syllables. Dividing Turkish words into syllables
-            is done in various ways. You can check out the documentation for the full explanation.
-          </p>
-          <br />
-          <hr />
-          <br />
-          <i>Emin Bahadır Tülüce - 2020</i>
+        <br/><br/>
+        <div id='pronunciation-buttons'>
+          {pronunciationComponents}
         </div>
-      </Drawer>
+        <br/>
+        {pronunciationComponents.length > 0 && (
+          <Button minimal icon='clipboard' className='pronunciation-button' onClick={copyPronunciation} />
+        )}
+        {pronunciatonText}
+      </div>
+      <InfoDrawer {...{isDrawerOpen, setIsDrawerOpen}} />
+      <Toaster ref={ref => setToasterRef(ref)} maxToasts={1} />
     </div>
   );
 };

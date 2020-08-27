@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Popover, Position, Icon } from '@blueprintjs/core';
 import PronunciationAudio from './pronunciation-audio';
 
 const Pronunciation = props => {
-  const wordAnalysis = props.wordAnalysis;
+  const { wordAnalysis, setActiveIndicesTrigger } = props;
   const [activeIndex, setActiveIndex] = useState(0);
 
   const maxHyphenationCount = 10;
@@ -13,6 +13,10 @@ const Pronunciation = props => {
   const minIndex = 0;
   const actualIndex = Math.min(Math.max(activeIndex, minIndex), maxIndex);
   const pronunciation = pronunciations[actualIndex];
+
+  useEffect(() => {
+    setActiveIndicesTrigger(activeIndex + Math.random());
+  }, [setActiveIndicesTrigger, activeIndex]);
 
   const goNext = () => {
     setActiveIndex(Math.min(maxIndex, actualIndex + 1));
