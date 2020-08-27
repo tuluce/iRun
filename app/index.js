@@ -150,7 +150,7 @@ const App = () => {
                 minimal
                 small
                 onClick={showNextExample}
-                text={<i>examples</i>}
+                text={<u>examples</u>}
               />
               )
             </p>
