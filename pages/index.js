@@ -12,8 +12,8 @@ const HomePage = () => {
         <link href='https://unpkg.com/normalize.css@^7.0.0' rel='stylesheet' />
         <link href='https://unpkg.com/@blueprintjs/icons@^3.4.0/lib/css/blueprint-icons.css' rel='stylesheet' />
         <link href='https://unpkg.com/@blueprintjs/core@^3.10.0/lib/css/blueprint.css' rel='stylesheet' />
-        <link href='/styles.css' rel='stylesheet' />
-        <link rel='icon ' type='image/x-icon' href='/favicon.ico' />
+        <link rel='stylesheet' href={`${rootUrl}/styles.css`} />
+        <link rel='icon' type='image/x-icon' href={`${rootUrl}/favicon.ico`} />
         <title>iRun - Pronounce Turkish phrases</title>
         <meta name='description' content='A web app to help with the pronunciation of Turkish words and phrases' />
         <meta property='og:site_name' content='iRun' />
