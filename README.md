@@ -1,6 +1,6 @@
 # iRun
 
-<img src='./public/irun.png' alt='irun logo' align='right' />
+<img src='./public/irun-small.png' alt='irun logo' align='right' />
 
 A web app to help with the pronunciation of Turkish words and phrases
 
