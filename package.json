@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "next dev",
     "export": "next build && next export",
+    "lint": "eslint preprocessing/** pages/** app/** ",
     "preprocess": "node ./preprocessing",
     "serve": "serve out"
   },
