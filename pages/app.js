@@ -9,13 +9,13 @@ import InfoDrawer from './components/info-drawer';
 const exampleTexts = [
   'Merhaba dünya!',
   'Emin Bahadır Tülüce',
-  'Antik diyarlardan bir gezgine rastladım.',
+  'Ayran içmek istiyorsan iç.',
   'İhsan Doğramacı Bilkent Üniversitesi',
+  'Antik diyarlardan bir gezgine rastladım.',
   'Sabah reçel yemek istiyorum.',
   'işletim sistemleri, veritabanları ve nesne yönelimli programlama',
   'Sıradaki sefer saat kaçta?',
   'Hiç şüphesiz ki Antalya dünyanın en güzel yeridir.',
-  'Ayran içmek istiyorsan iç.',
 ];
 
 const App = () => {
