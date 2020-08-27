@@ -17,12 +17,30 @@ const App = () => {
   const [toasterRef, setToasterRef] = useState();
 
   useEffect(() => {
+    if (typeof localStorage !== 'undefined') {
+      const isDarkModeStr = localStorage.getItem('irun-is-dark-mode');
+      if (isDarkModeStr) {
+        const lastIsDarkMode = JSON.parse(isDarkModeStr);
+        setIsDarkMode(lastIsDarkMode);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
     if (isDarkMode) {
       document.querySelector('html').style.backgroundColor = '#30404d';
     } else {
       document.querySelector('html').style.backgroundColor = '#ffffff';
     }
   }, [isDarkMode]);
+
+  const toggleDarkMode = () => {
+    const newIsDarkMode = !isDarkMode;
+    setIsDarkMode(newIsDarkMode);
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('irun-is-dark-mode', JSON.stringify(newIsDarkMode));
+    }
+  };
 
   useEffect(() => {
     const pronuncationButtons = document.getElementById('pronunciation-buttons');
@@ -113,7 +131,7 @@ const App = () => {
           <Button
             className='meta-button'
             icon='moon'
-            onClick={() => setIsDarkMode(!isDarkMode)}
+            onClick={toggleDarkMode}
           />
         </div>
       </div>
