@@ -2,11 +2,9 @@
   "name": "pronunciaton-helper",
   "license": "MIT",
   "scripts": {
-    "build": "next build",
     "dev": "next dev",
     "export": "next build && next export",
-    "preprocess": "node ./preprocessing",
-    "start": "next start"
+    "preprocess": "node ./preprocessing"
   },
   "dependencies": {
     "@blueprintjs/core": "^3.31.0",

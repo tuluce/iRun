@@ -12,7 +12,7 @@ const Pronunciation = props => {
   const maxIndex = pronunciations?.length - 1;
   const minIndex = 0;
   const actualIndex = Math.min(Math.max(activeIndex, minIndex), maxIndex);
-  const pronunciation = pronunciations[actualIndex];
+  const pronunciation = pronunciations && pronunciations[actualIndex];
 
   useEffect(() => {
     setActiveIndicesTrigger(activeIndex + Math.random());
@@ -47,9 +47,9 @@ const Pronunciation = props => {
     <span>
       <Popover position={Position.BOTTOM} content={(
         <div className='pornunciation-popover'>
-          <PronunciationAudio pronounceable={wordAnalysis.pronounceable}/>
+          <PronunciationAudio pronounceable={wordAnalysis?.pronounceable}/>
           &nbsp;
-          {wordAnalysis.pronounceable}
+          {wordAnalysis?.pronounceable}
           &nbsp;&#8594;&nbsp;
           <b>{pronunciation?.display}</b>
           &nbsp;({actualIndex + 1} / {pronunciations?.length})
