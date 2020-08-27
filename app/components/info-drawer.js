@@ -44,7 +44,14 @@ const InfoDrawer = props => {
         <br />
         <hr />
         <br />
-        <i>Emin Bahadır Tülüce - 2020</i>
+        <div className='drawer-content-footer'>
+          <p>
+            This website uses cookies to store the UI preferences.{' '}
+            <a href='https://www.internetcookies.org' target='_blank' rel='noreferrer'>Learn more</a>
+          </p>
+          <br />
+          <p>Emin Bahadır Tülüce - 2020</p>
+        </div>
       </div>
     </Drawer>
   );

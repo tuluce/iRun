@@ -47,6 +47,11 @@ html {
   overflow-x: hidden;
 }
 
+.drawer-content-footer {
+  font-size: 80%;
+  font-style: italic;
+}
+
 .drawer-content::-webkit-scrollbar {
   display: none;
 }
