@@ -5,6 +5,7 @@
     "build": "next build",
     "dev": "next dev",
     "export": "next build && next export",
+    "preprocess": "node ./preprocessing",
     "start": "next start"
   },
   "dependencies": {

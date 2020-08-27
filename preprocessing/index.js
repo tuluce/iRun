@@ -1,8 +1,11 @@
-const generateFilteredDict = require('./preprocessing/generate-filtered-dict');
-generateFilteredDict();
+// const generateFilteredDict = require('./generate-filtered-dict');
+// generateFilteredDict();
 
-const generateReverseMap = require('./preprocessing/generate-reverse-map');
-generateReverseMap();
+const generateReverseMultimap = require('./generate-reverse-multimap');
+generateReverseMultimap();
 
-const generateFrequencyMap = require('./preprocessing/generate-frequency-map');
+const generateFrequencyMap = require('./generate-frequency-map');
 generateFrequencyMap();
+
+const generateReverseMap = require('./generate-reverse-map');
+generateReverseMap();

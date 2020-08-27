@@ -4,7 +4,6 @@ import { getProperHyphenation, normalizeWord } from './hyphenate';
 import phoneticMap from '../data/phonetic-map.json';
 import phoneticMapExtra from '../data/phonetic-map-extra.json';
 import reverseMap from '../data/reverse-map.json';
-import frequencyMap from '../data/frequency-map.json';
 import letterPronunciationMap from '../data/letter-pronunciation-map.json';
 import syllablePronunciationMap from '../data/syllable-pronunciation-map.json';
 
@@ -96,14 +95,12 @@ const getFancySyllablePronunciation = syllable => {
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
     if (reverseMap[key]) {
-      const alternatives = reverseMap[key].slice();
-      const getFrequency = word => frequencyMap[word] || 0;
-      alternatives.sort((a, b) => getFrequency(b) - getFrequency(a));
+      const word = reverseMap[key];
       return {
-        word: alternatives[0],
+        word: word,
         source: 'dictionary',
         explanation: {
-          from: alternatives[0],
+          from: word,
           to: key,
         },
       };
