@@ -38,19 +38,8 @@ const Pronunciation = props => {
         </span>
       );
     }
-    if (source === 'syllable-translation') {
-      return (
-        <span>
-          ({from} &#8594; {to})
-        </span>
-      );
-    }
-    if (source === 'letter-translation') {
-      return (
-        <span>
-          ({from} &#8594; {to})
-        </span>
-      );
+    if (source === 'syllable-translation' || source === 'letter-translation') {
+      return (<span>({from} &#8594; {to})</span>);
     }
   };
 

@@ -3,14 +3,12 @@ import { Drawer } from '@blueprintjs/core';
 
 const InfoDrawer = props => {
   const { isDrawerOpen, setIsDrawerOpen } = props;
-
   const getDrawerSize = () => {
     if (typeof window !== 'undefined') {
       return `${Math.min(window.innerWidth, 450)}px`;
     }
     return '450px';
   };
-
   return (
     <Drawer
       isOpen={isDrawerOpen}
