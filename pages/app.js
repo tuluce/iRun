@@ -37,8 +37,11 @@ const App = () => {
 
   useEffect(() => {
     const pronuncationButtons = document.getElementById('pronunciation-buttons');
-    const text = pronuncationButtons.innerText;
-    setPronunciatonText(text.replaceAll('\n', ' '));
+    let text = pronuncationButtons.innerText;
+    while (text.includes('\n')) {
+      text = text.replace('\n', ' ');
+    }
+    setPronunciatonText(text);
   }, [inputText, activeIndicesTrigger]);
 
   const pronunciationAnalysis = getPronunciation(inputText, { analysis: true });

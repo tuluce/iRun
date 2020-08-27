@@ -18,19 +18,19 @@ const InfoDrawer = props => {
       title='About Pronounce TR'
     >
       <div className='drawer-content'>
-        <h3>What?</h3>
+        <h3>What</h3>
         <p>
           An open-source web app to help with the pronunciation of Turkish words. To check
           out the source code or contribute, please visit the GitHub repository.
         </p>
-        <h3>Why?</h3>
+        <h3>Why</h3>
         <p>
           Unlike any other pronunciation dictionaries, Pronounce TR attempts to find
           English dictionary words which have close pronunciations to the target Turkish
           syllable. The goal is to make the prounciation easier to the people who are not
           familiar with Turkish.
         </p>
-        <h3>How?</h3>
+        <h3>How</h3>
         <p>
           Pronounce TR uses the CMUdict (the Carnegie Mellon Pronouncing Dictionary) to
           find English matches to Turkish syllables. Dividing Turkish words into syllables
