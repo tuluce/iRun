@@ -5,7 +5,6 @@ import phoneticMap from '../data/phonetic-map.json';
 import phoneticMapExtra from '../data/phonetic-map-extra.json';
 import reverseMap from '../data/reverse-map.json';
 import letterPronunciationMap from '../data/letter-pronunciation-map.json';
-import syllablePronunciationMap from '../data/syllable-pronunciation-map.json';
 
 const getAlternativePhonemes = phoneme => {
   const isStressFreeVowel = phoneme => RegExp('^[AEIOU][A-Z]$').test(phoneme);
@@ -79,16 +78,6 @@ const getExtraPhonemeSets = syllable => {
 };
 
 const getFancySyllablePronunciation = syllable => {
-  if (syllablePronunciationMap[syllable]) {
-    return {
-      source: 'syllable-translation',
-      word: syllablePronunciationMap[syllable],
-      explanation: {
-        from: syllable,
-        to: syllablePronunciationMap[syllable],
-      },
-    };
-  }
   const phonemeSets = getPhonemeSets(syllable);
   const extraPhonemeSets = getExtraPhonemeSets(syllable);
   const keys = [...getKeys(phonemeSets), ...getKeys(extraPhonemeSets)];
