@@ -41,6 +41,9 @@ const Pronunciation = props => {
     if (source === 'syllable-translation' || source === 'letter-translation') {
       return (<span>({from} &#8594; {to})</span>);
     }
+    if (source === 'too-much-vowels') {
+      return (<span>(too much vowels to process)</span>);
+    }
   };
 
   return (

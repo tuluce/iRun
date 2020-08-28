@@ -1,5 +1,5 @@
 import { getAllHyphenations } from './hyphenate-all';
-import { getProperHyphenation, normalizeWord } from './hyphenate';
+import { getProperHyphenation, getVowelCount, normalizeWord } from './hyphenate';
 
 import phoneticMap from '../data/phonetic-map.json';
 import phoneticMapExtra from '../data/phonetic-map-extra.json';
@@ -158,6 +158,13 @@ const getFancyWordPronunciations = word => {
 };
 
 const getWordPronunciations = word => {
+  if (getVowelCount(word) > 10) {
+    return [[{
+      word: word,
+      source: 'too-much-vowels',
+      explanation: { from: word, to: word },
+    }]];
+  }
   const wordPronunciations = getFancyWordPronunciations(word);
   if (wordPronunciations.length === 0) {
     return wordPronunciations;
