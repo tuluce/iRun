@@ -142,9 +142,9 @@ const App = () => {
             <AyranIcon />
           </div>
           <div>
-            <p>Enter the Turkish phrase you want to pronounce.</p>
+            <p>Enter the Turkish phrase you want to pronounce. Use Turkish characters for more accurate results.</p>
             <p>
-              ( or check out some of the
+              Or, check out some of the
               <Button
                 className='examples-button'
                 minimal
@@ -152,7 +152,6 @@ const App = () => {
                 onClick={showNextExample}
                 text={<u>examples</u>}
               />
-              )
             </p>
           </div>
         </div>

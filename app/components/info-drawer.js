@@ -21,7 +21,7 @@ const InfoDrawer = props => {
         <h3>What</h3>
         <p>
           An open-source web app to help with the pronunciation of Turkish words and phrases. To check out
-          the source code or contribute, please visit{' '}
+          the source code or give a star, please visit{' '}
           <a href='https://github.com/tuluce/iRun' target='_blank' rel='noreferrer'>the GitHub repository</a>.
         </p>
         <h3>Why</h3>
@@ -47,7 +47,7 @@ const InfoDrawer = props => {
         <div className='drawer-content-footer'>
           <p>
             This website uses cookies to store the UI preferences.{' '}
-            <a href='https://www.internetcookies.org' target='_blank' rel='noreferrer'>Learn more</a>
+            <a href='https://www.internetcookies.org' target='_blank' rel='noreferrer'>Learn more</a>.
           </p>
           <br />
           <p>Emin Bahadır Tülüce - 2020</p>
