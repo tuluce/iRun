@@ -3,7 +3,7 @@ import Head from 'next/head';
 
 import App from '../app';
 
-const rootUrl = 'https://irun.netlify.app';
+const rootUrl = 'https://irun.fyi';
 
 const HomePage = () => {
   return (
